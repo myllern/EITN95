@@ -1,4 +1,4 @@
-package event;
+package assign1.task1;
 
 public class EventListClass {
 

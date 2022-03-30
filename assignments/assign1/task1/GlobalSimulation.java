@@ -1,4 +1,4 @@
-package event;
+package assign1.task1;
 
 public class GlobalSimulation {
 
@@ -10,6 +10,7 @@ public class GlobalSimulation {
     // MainSimulation.java and State.java simpler (no dot notation is needed).
 
     public static final int ARRIVAL = 1, READY = 2, MEASURE = 3; // The events, add or remove if needed!
+    public static final int ARRIVALQ1 = 1;
     public static double time = 0; // The global time variable
     public static EventListClass eventList = new EventListClass(); // The event list used in the program
 

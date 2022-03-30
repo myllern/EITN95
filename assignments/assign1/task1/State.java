@@ -1,4 +1,4 @@
-package event;
+package assign1.task1;
 
 import java.util.*;
 
@@ -38,7 +38,8 @@ class State extends GlobalSimulation {
     private void arrival() {
         if (numberInQueue == 0)
             insertEvent(READY, time + State.serviceTime * slump.nextDouble());
-        numberInQueue++;
+        else
+            numberInQueue++;
         insertEvent(ARRIVAL, time + State.arrivalTime * slump.nextDouble());
     }
 
