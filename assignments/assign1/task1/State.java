@@ -4,21 +4,17 @@ package assign1.task1;
 import java.util.*;
 
 class State extends GlobalSimulation {
+    public int nbrInQ1 = 0, accumulatedInQ1 = 0, nbrMeasurementsInQ1 = 0;
+    public int nbrInQ2 = 0, accumulatedInQ2 = 0, nbrMeasurementsInQ2 = 0;
+    public int totalNbrQ2 = 0;
 
-    // Here follows the state variables and other variables that might be needed
-    // e.g. for measurements
-    public int numberInQ1 = 0, accumulatedInQ1 = 0, noMeasurementsInQ1 = 0;
-    public int numberInQ2 = 0, accumulatedInQ2 = 0, noMeasurementsInQ2 = 0;
-    public int lambda = 1; // Arial
+    public double lambda = 1; 
+    public double meanQ1 = 2.1;
+    public double serviceTimeQ2 = 2;
+    public double measureMean = 5;
+    
+    Random rand = new Random(); 
 
-    public static double arrivalTime = 0.8;
-    public static double serviceTime = 2;
-
-    Random rand = new Random(); // This is just a random number generator
-
-    // The following method is called by the main program each time a new event has
-    // been fetched
-    // from the event list in the main loop.
     public void treatEvent(Event x) {
         switch (x.eventType) {
             case ARRIVALQ1:
@@ -30,46 +26,42 @@ class State extends GlobalSimulation {
             case READYQ2:
                 readyQ2();
                 break;
+            case MEASUREQ2:
+                measureQ2();
+                break;
         }
     }
 
-    // The following methods defines what should be done when an event takes place.
-    // This could
-    // have been placed in the case in treatEvent, but often it is simpler to write
-    // a method if
-    // things are getting more complicated than this.
-
     private void arrival1() {
-        if (numberInQ1 == 0)
-            insertEvent(ARRIVALQ2, time + State.serviceTime * expDistPdf(2.1));
-        else if(numberInQ1 <= 10)         
-            numberInQ1++;
-        insertEvent(ARRIVALQ1, time + State.arrivalTime * lambda);
+        if (nbrInQ1 == 0)
+            insertEvent(ARRIVALQ2, time +  expDistPdf(meanQ1));
+        else if (nbrInQ1 <= 10)
+            nbrInQ1++;
+        insertEvent(ARRIVALQ1, time + lambda);
     }
 
     private void arrival2() {
-        numberInQ1--;
-        if (numberInQ2 == 0)
-            insertEvent(READYQ2, time + State.serviceTime * 2);
-        else
-            numberInQ2++;  
+        nbrInQ1--;
+        if (nbrInQ2 == 0)
+            insertEvent(READYQ2, time +  serviceTimeQ2);
+        nbrInQ2++;
     }
 
     private void readyQ2() {
-        numberInQ2--;
-        if (numberInQ2 > 0)
-            insertEvent(READYQ2, time + State.serviceTime * rand.nextDouble());
-            
+        nbrInQ2--;
+        if (nbrInQ2 > 0)
+            insertEvent(READYQ2, time + serviceTimeQ2);
+
     }
 
-    private void measure() {
-        accumulatedInQ1 = accumulatedInQ1 + noMeasurementsInQ1;
-        noMeasurementsInQ1++;
-        insertEvent(MEASUREQ2, time + rand.nextDouble() * 10);
+    private void measureQ2() {
+        accumulatedInQ2 = accumulatedInQ2 + nbrMeasurementsInQ2;
+        nbrMeasurementsInQ2++;
+        totalNbrQ2 += nbrInQ2;
+        insertEvent(MEASUREQ2, time + expDistPdf(measureMean)); 
     }
 
     private double expDistPdf(double mean) {
-        return Math.log(1-rand.nextDouble())/(-1/mean);
+        return Math.log(1 - rand.nextDouble()) / (-1 / mean);
     }
 }
-

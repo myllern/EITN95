@@ -5,8 +5,24 @@ import java.io.*;
 public class MainSimulation extends GlobalSimulation {
 
     public static void main(String[] args) throws IOException {
-        MainSimulation.avergeOfAverage(20000, 1);
+        Event currentEvent;
+        State state = new State(); 
+        insertEvent(ARRIVALQ1, 0);
+        insertEvent(MEASUREQ2, 5);
+
+        int nbrOfMeasurements = 1000;
+
+        while (state.nbrMeasurementsInQ2 < nbrOfMeasurements) {
+            currentEvent = eventList.fetchEvent();
+            time = currentEvent.eventTime;
+            state.treatEvent(currentEvent);
+        }
+
+        double mean = 1.0 * state.totalNbrQ2 / nbrOfMeasurements;
+        System.out.println(mean);
     }
+
+    
 
     public static void avergeOfAverage(int simTime, int nbrOfTimes) {
         double meanSum = 0;
@@ -27,7 +43,7 @@ public class MainSimulation extends GlobalSimulation {
         State actState = new State(); // The state that should be used
         // Some events must be put in the event list at the beginning
         insertEvent(ARRIVAL, 0);
-        //insertEvent(MEASURE, 5);
+        insertEvent(MEASUREQ2, 5);
         // The main simulation loop
         while (time < simTime) {
             actEvent = eventList.fetchEvent();
