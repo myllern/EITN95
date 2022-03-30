@@ -8,12 +8,12 @@ class State extends GlobalSimulation {
     public int nbrInQ2 = 0, accumulatedInQ2 = 0, nbrMeasurementsInQ2 = 0;
     public int totalNbrQ2 = 0;
 
-    public double lambda = 1; 
+    public double lambda = 5;
     public double meanQ1 = 2.1;
     public double serviceTimeQ2 = 2;
     public double measureMean = 5;
-    
-    Random rand = new Random(); 
+
+    Random rand = new Random();
 
     public void treatEvent(Event x) {
         switch (x.eventType) {
@@ -34,7 +34,7 @@ class State extends GlobalSimulation {
 
     private void arrival1() {
         if (nbrInQ1 == 0)
-            insertEvent(ARRIVALQ2, time +  expDistPdf(meanQ1));
+            insertEvent(ARRIVALQ2, time + expDistPdf(meanQ1));
         else if (nbrInQ1 <= 10)
             nbrInQ1++;
         insertEvent(ARRIVALQ1, time + lambda);
@@ -43,7 +43,7 @@ class State extends GlobalSimulation {
     private void arrival2() {
         nbrInQ1--;
         if (nbrInQ2 == 0)
-            insertEvent(READYQ2, time +  serviceTimeQ2);
+            insertEvent(READYQ2, time + serviceTimeQ2);
         nbrInQ2++;
     }
 
@@ -58,7 +58,7 @@ class State extends GlobalSimulation {
         accumulatedInQ2 = accumulatedInQ2 + nbrMeasurementsInQ2;
         nbrMeasurementsInQ2++;
         totalNbrQ2 += nbrInQ2;
-        insertEvent(MEASUREQ2, time + expDistPdf(measureMean)); 
+        insertEvent(MEASUREQ2, time + expDistPdf(measureMean));
     }
 
     private double expDistPdf(double mean) {
