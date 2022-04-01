@@ -13,23 +13,17 @@ public class MainSimulation extends GlobalSimulation {
         // double sum = 0;
         // int iterations = 100;
         // for (int i = 0; i < iterations; i++) {
-        // reset();
-        Event currentEvent;
-        State state = new State();
-        insertEvent(ARRIVALSYSTEM, 0);
-        insertEvent(MEASUREQ2, 1);
+            reset();
+            Event currentEvent;
+            State state = new State();
+            insertEvent(EXE_A, 0);
+            insertEvent(MEASUREQA, 5);
+            while (time < 50000) {
+                currentEvent = eventList.fetchEvent();
+                time = currentEvent.eventTime;
+                state.treatEvent(currentEvent);
+            }
 
-        // int nbrOfMeasurements = 1000;
-        while (time < 5000) {
-            currentEvent = eventList.fetchEvent();
-            time = currentEvent.eventTime;
-            state.treatEvent(currentEvent);
-            // System.err.println("QA = " + state.nbrInQA);
-            // System.err.println("QB = " + state.nbrInQB);
-        }
-
-        // double mean = 1.0 * state.totalNbrQ2 / nbrOfMeasurements;
-        // sum += mean;
         // }
         // System.out.println(1.0 * sum / iterations);
     }
