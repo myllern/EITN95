@@ -5,11 +5,12 @@ import java.util.*;
 class State extends GlobalSimulation {
     public int nbrInQA = 0, accumulatedInQA = 0, nbrMeasurementsInQA = 0, totalNbrQA = 0;
     public int nbrInQB = 0, accumulatedInQ2 = 0, nbrMeasurementsInQ2 = 0;
+    public int nbrInDelay = 0;
 
     public double serviceTimeA = 0.002;
     public double serviceTimeB = 0.004;
     public double lifeTime = 1;
-    public double meanArrivalToSystem = 0.00666667; // per sec
+    public double meanArrivalToSystem = 0.00666666; // per sec
 
     Random rand = new Random();
 
@@ -37,48 +38,44 @@ class State extends GlobalSimulation {
     private void exeA() {
         if (nbrInQA == 0) {
             if (nbrInQB == 0) {
-                nbrInQA++;
                 insertEvent(DELAY, time + serviceTimeA);
-            } else {
-                nbrInQA++;
             }
-        } else {
-            nbrInQA++;
         }
-
+        nbrInQA++;
         insertEvent(EXE_A, time + getPoissonRandom(meanArrivalToSystem));
 
     }
 
     private void delay() {
+        nbrInDelay++;
         nbrInQA--;
         insertEvent(EXE_B, time + lifeTime);
     }
 
     private void exeB() {
+        nbrInDelay--;
         if (nbrInQB == 0) {
             insertEvent(READY, time + serviceTimeB);
-            nbrInQB++;
-        } else {
-            nbrInQB++;
-        }
-
+        } 
+        nbrInQB++;
     }
 
     private void ready() {
         nbrInQB--;
-        if (nbrInQB > 0) {
+        if (nbrInQB != 0) {
             insertEvent(READY, time + serviceTimeB);
-        }
 
+        } else if (nbrInQA > 0) {
+            insertEvent(DELAY, time + serviceTimeA);
+        }
     }
 
     private void measureQA() {
         accumulatedInQA = accumulatedInQA + nbrMeasurementsInQA;
         nbrMeasurementsInQ2++;
         totalNbrQA += nbrInQA;
-        System.out.println(nbrInQA + " " + nbrInQB);
-        insertEvent(MEASUREQA, time + 5);
+            System.out.println(nbrInQB);
+        insertEvent(MEASUREQA, time + 1);
     }
 
     // private double expDistPdf(double mean) {
