@@ -77,24 +77,30 @@ class State extends GlobalSimulation {
         accumulatedInQ = nbrInQA + nbrInQB;
 
         insertEvent(MEASUREQA, time + measureTime);
+        printNbrInQueue();
+
     }
 
-    // private double expDistPdf(double mean) {
-    // return Math.log(1 - rand.nextDouble()) / (-mean);
-    // }
+    public void printNbrInQueue() {
+        System.out.println("-----");
+        System.out.println("A: " + nbrInQA);
+        System.out.println("B: " + nbrInQB);
+        System.out.println("-----");
+    }
 
     public double getPoissonRandom(double mean) {
         return mean;
     }
-    // public static int getPoissonRandom(double mean) {
 
-    // double L = Math.exp(-mean);
-    // int k = 0;
-    // double p = 1.0;
-    // do {
-    // p = p * rand.nextDouble();
-    // k++;
-    // } while (p > L);
-    // return k - 1;
-    // }
+    public int getPoissonRandom2(double mean) {
+
+        double L = Math.exp(-mean);
+        int k = 0;
+        double p = 1.0;
+        do {
+            p = p * rand.nextDouble();
+            k++;
+        } while (p > L);
+        return k - 1;
+    }
 }
