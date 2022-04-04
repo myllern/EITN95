@@ -3,12 +3,12 @@ package assign1.task2;
 import java.util.*;
 
 class State extends GlobalSimulation {
-    public int nbrInQA = 0, accumulatedInQA = 0, nbrMeasurementsInQA = 0, totalNbrQA = 0;
-    public int nbrInQB = 0, accumulatedInQ2 = 0, nbrMeasurementsInQ2 = 0;
-    // public int nbrInDelay = 0;
+    public int nbrInQA = 0;
+    public int nbrInQB = 0;
+    public int accumulatedInQ = 0;
 
     public double serviceTimeA = 0.002;
-    public double serviceTimeB = 10000;
+    public double serviceTimeB = 0.004;
     public double lifeTime = 1;
     public double meanArrivalToSystem = 1.0 * 1 / 150; // per sec
 
@@ -74,9 +74,7 @@ class State extends GlobalSimulation {
     }
 
     private void measureQA() {
-        accumulatedInQA = accumulatedInQA + nbrMeasurementsInQA;
-        nbrMeasurementsInQ2++;
-        totalNbrQA += nbrInQA;
+        accumulatedInQ = nbrInQA + nbrInQB;
 
         insertEvent(MEASUREQA, time + measureTime);
     }
