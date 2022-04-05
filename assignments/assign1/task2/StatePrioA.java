@@ -40,8 +40,7 @@ class StateA extends GlobalSimulation {
   }
 
   private void arrivalA() {
-    if (nbrInQA == 0 && !isBusy) {
-      isBusy = true;
+    if (nbrInQA == 0) {
       insertEvent(DELAY, time + serviceTimeA);
     }
 
@@ -53,7 +52,6 @@ class StateA extends GlobalSimulation {
 
   private void delay() {
     nbrInQA--;
-    isBusy = false;
 
     // schedule arrival B
     insertEvent(ARR_B, time + lifeTime);
@@ -61,13 +59,15 @@ class StateA extends GlobalSimulation {
   }
 
   private void arrivalB() {
-
-    if (nbrInQB == 0 && nbrInQA == 0 && !isBusy) {
-      insertEvent(READY, time + serviceTimeB);
-      isBusy = true;
+    if (nbrInQA > 0) {
+      insertEvent(DELAY, time + serviceTimeA);
+      nbrInQB++;
+    } else {
+      if (nbrInQB == 0) {
+        insertEvent(READY, time + serviceTimeB);
+      }
+      nbrInQB++;
     }
-
-    nbrInQB++;
   }
 
   private void ready() {
@@ -78,9 +78,6 @@ class StateA extends GlobalSimulation {
     } else if (nbrInQB > 0) {
       nbrInQB--;
       insertEvent(READY, time + serviceTimeB);
-      if (nbrInQB == 0 && nbrInQA == 0) {
-        isBusy = false;
-      }
     }
   }
 
@@ -88,7 +85,7 @@ class StateA extends GlobalSimulation {
     accumulatedInQ = nbrInQA + nbrInQB;
 
     insertEvent(MEASUREQA, time + measureTime);
-    printNbrInQueue();
+    // printNbrInQueue();
   }
 
   public void printNbrInQueue() {
