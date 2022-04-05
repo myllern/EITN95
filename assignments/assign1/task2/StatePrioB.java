@@ -1,8 +1,9 @@
 package assign1.task2;
 
+import java.net.InetAddress;
 import java.util.*;
 
-class StateA extends GlobalSimulation {
+class StatePrioB extends GlobalSimulation {
     public ArrayList<String> queue = new ArrayList<>();
     public int accumulatedInQ = 0;
 
@@ -14,7 +15,7 @@ class StateA extends GlobalSimulation {
     public double mean_d = 1.0;
     public double lambda_d = 1.0 / mean_d; // per sec
 
-    static Random rand = new Random();
+    static Random rand = new Random(1);
 
     public void treatEvent(Event x) {
         switch (x.eventType) {
@@ -42,18 +43,45 @@ class StateA extends GlobalSimulation {
     }
 
     private void arrivalA() {
+        if (queue.size() == 0)
+            queue.add("A");
+        else
+            queue.add(queue.size() - 1, "A");
+
+        if (queue.size() + 1 == 1)
+            insertEvent(SERVED_A, time + serviceTimeA);
+
+        insertEvent(ARRIVAL_A, time + expDistPdf(lambda));
     }
 
     private void servedA() {
+        queue.remove(queue.size() - 1);
+        insertEvent(ARRIVAL_B, time + lifeTime);
+
+        serve();
     }
 
     private void arrivalB() {
+        queue.add(0, "B");
+
+        if (queue.size() == 1)
+            insertEvent(SERVED_B, time + serviceTimeB);
     }
 
     private void servedB() {
+        queue.remove(0);
+
+        serve();
     }
 
     private void serve() {
+        int size = queue.size();
+        if (size > 0) {
+            if (queue.get(0) == "B")
+                insertEvent(SERVED_B, time + serviceTimeB);
+            else
+                insertEvent(SERVED_A, time + serviceTimeA);
+        }
     }
 
     private void measure() {

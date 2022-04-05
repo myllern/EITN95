@@ -2,14 +2,14 @@ package assign1.task2;
 
 import java.util.*;
 
-class StateA extends GlobalSimulation {
+class StatePrioA extends GlobalSimulation {
   public ArrayList<String> queue = new ArrayList<>();
   public int accumulatedInQ = 0;
 
   public double serviceTimeA = 0.002;
   public double serviceTimeB = 0.004;
   public double lifeTime = 1.0;
-  public double lambda = 3 * 150.0; // per sec
+  public double lambda = 150.0; // per sec
   public double mean = 1.0 / lambda; // per sec
   public double mean_d = 1.0;
   public double lambda_d = 1.0 / mean_d; // per sec
@@ -77,9 +77,9 @@ class StateA extends GlobalSimulation {
   private void serve() {
     if (queue.size() > 0) {
       if (queue.get(0) == "A")
-        servedA();
+        insertEvent(SERVED_A, time + serviceTimeA);
       else
-        servedB();
+        insertEvent(SERVED_B, time + serviceTimeB);
     }
   }
 

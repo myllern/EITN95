@@ -1,7 +1,6 @@
 package assign1.task2;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class MainSimulation extends GlobalSimulation {
 
@@ -11,11 +10,11 @@ public class MainSimulation extends GlobalSimulation {
 
     public static void runSim() {
         Event currentEvent;
-        StateA state = new StateA();
-        // State state = new State();
+        // StatePrioA state = new StatePrioA();
+        StatePrioB state = new StatePrioB();
         insertEvent(ARRIVAL_A, 0);
         insertEvent(MEASURE, measureTime);
-        int nbrOfSamples = 4;
+        int nbrOfSamples = 1000;
         int i = 0;
 
         while (i < nbrOfSamples) {
