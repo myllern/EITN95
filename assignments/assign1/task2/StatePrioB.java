@@ -9,7 +9,7 @@ class StatePrioB extends GlobalSimulation {
     public double serviceTimeA = 0.002;
     public double serviceTimeB = 0.004;
     public double lifeTime = 1.0;
-    public double lambda = 3 * 150.0; // per sec
+    public double lambda = 150.0; // per sec
     public double mean = 1.0 / lambda; // per sec
     public double mean_d = 1.0;
     public double lambda_d = 1.0 / mean_d; // per sec
@@ -44,6 +44,8 @@ class StatePrioB extends GlobalSimulation {
     }
 
     private void arrivalA() {
+        nbrArrivalA++;
+
         if (queue.size() == 0)
             queue.add("A");
         else
@@ -56,29 +58,33 @@ class StatePrioB extends GlobalSimulation {
     }
 
     private void servedA() {
+        nbrServedA++;
         queue.remove(queue.size() - 1);
-        // insertEvent(ARRIVAL_B, time + lifeTime);
-        insertEvent(ARRIVAL_B, time + expDistPdf(lambda_d));
+        insertEvent(ARRIVAL_B, time + lifeTime);
+        // insertEvent(ARRIVAL_B, time + expDistPdf(lambda_d));
 
         serve();
     }
 
     private void arrivalB() {
+        nbrArrivalB++;
+
         queue.add(0, "B");
 
         if (queue.size() == 1)
             insertEvent(SERVED_B, time + serviceTimeB);
+
     }
 
     private void servedB() {
+        nbrServedB++;
         queue.remove(0);
 
         serve();
     }
 
     private void serve() {
-        int size = queue.size();
-        if (size > 0) {
+        if (queue.size() > 0) {
             if (queue.get(0) == "B")
                 insertEvent(SERVED_B, time + serviceTimeB);
             else
@@ -90,7 +96,6 @@ class StatePrioB extends GlobalSimulation {
         accumulatedInQ = queue.size();
 
         ys.add(queue.size());
-
         insertEvent(MEASURE, time + measureTime);
         printNbrInQueue();
     }

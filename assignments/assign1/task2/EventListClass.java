@@ -40,4 +40,12 @@ public class EventListClass {
         dummy.next = null;
         return dummy;
     }
+
+    public void printList() {
+        Event elem = list;
+        while (elem != null) {
+            System.out.println(elem);
+            elem = elem.next;
+        }
+    }
 }

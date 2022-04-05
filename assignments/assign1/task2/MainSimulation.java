@@ -33,6 +33,11 @@ public class MainSimulation extends GlobalSimulation {
         System.out.println("Mean number of jobs in buffer");
         System.out.println(meanQ);
 
+        System.out.println("Nbr arrival A: " + state.nbrArrivalA);
+        System.out.println("Nbr served A: " + state.nbrServedA);
+        System.out.println("Nbr arrival B: " + state.nbrArrivalB);
+        System.out.println("Nbr served B: " + state.nbrServedB);
+
         File file = new File("task_24.txt");
         FileWriter fw = new FileWriter(file, StandardCharsets.UTF_8);
         ArrayList<Integer> ys = state.ys;
