@@ -1,11 +1,11 @@
+package assign1.task3;
 
 public class GlobalSimulation {
-    public static final int  
-    ARRIVALQ1 = 1, 
-    MEASUREQ1 = 2, 
-    ARRIVALQ2 = 3, 
-    READY = 4, 
-    MEASUREQ2 = 5;
+    public static final int ARRIVALQ1 = 1,
+            MEASUREQ1 = 2,
+            ARRIVALQ2 = 3,
+            READY = 4,
+            MEASUREQ2 = 5;
 
     public static double time = 0; // The global time variable
     public static EventListClass eventList = new EventListClass(); // The event list used in the program

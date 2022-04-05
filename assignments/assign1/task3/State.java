@@ -1,3 +1,4 @@
+package assign1.task3;
 
 import java.util.*;
 
@@ -38,7 +39,7 @@ class State extends GlobalSimulation {
         if (nbrInQ1 == 0) {
             insertEvent(ARRIVALQ2, time + expDistPdf(serviceTimeQ1));
             nbrInQ1++;
-        } else{
+        } else {
             nbrInQ1++;
         }
 

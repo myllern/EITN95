@@ -1,38 +1,43 @@
+package assign1.task4;
+
 import java.util.*;
 import java.io.*;
 
 // This class defines a simple queuing system with one server. It inherits Proc so that we can use time and the
 // signal names without dot notation
-class QS extends Proc{
+class QS extends Proc {
 	public int numberInQueue = 0, accumulated, noMeasurements;
 	public Proc sendTo;
 	Random slump = new Random();
 
-	public void TreatSignal(Signal x){
-		switch (x.signalType){
+	public void TreatSignal(Signal x) {
+		switch (x.signalType) {
 
-			case ARRIVAL:{
+			case ARRIVAL: {
 				numberInQueue++;
-				if (numberInQueue == 1){
-					SignalList.SendSignal(READY,this, time + 0.2*slump.nextDouble());
+				if (numberInQueue == 1) {
+					SignalList.SendSignal(READY, this, time + 0.2 * slump.nextDouble());
 				}
-			} break;
+			}
+				break;
 
-			case READY:{
+			case READY: {
 				numberInQueue--;
-				if (sendTo != null){
+				if (sendTo != null) {
 					SignalList.SendSignal(ARRIVAL, sendTo, time);
 				}
-				if (numberInQueue > 0){
-					SignalList.SendSignal(READY, this, time + 0.2*slump.nextDouble());
+				if (numberInQueue > 0) {
+					SignalList.SendSignal(READY, this, time + 0.2 * slump.nextDouble());
 				}
-			} break;
+			}
+				break;
 
-			case MEASURE:{
+			case MEASURE: {
 				noMeasurements++;
 				accumulated = accumulated + numberInQueue;
-				SignalList.SendSignal(MEASURE, this, time + 2*slump.nextDouble());
-			} break;
+				SignalList.SendSignal(MEASURE, this, time + 2 * slump.nextDouble());
+			}
+				break;
 		}
 	}
 }
