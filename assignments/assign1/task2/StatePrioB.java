@@ -44,7 +44,6 @@ class StatePrioB extends GlobalSimulation {
     }
 
     private void arrivalA() {
-        nbrArrivalA++;
 
         if (queue.size() == 0)
             queue.add("A");
@@ -58,7 +57,6 @@ class StatePrioB extends GlobalSimulation {
     }
 
     private void servedA() {
-        nbrServedA++;
         queue.remove(queue.size() - 1);
         insertEvent(ARRIVAL_B, time + lifeTime);
         // insertEvent(ARRIVAL_B, time + expDistPdf(lambda_d));
@@ -67,7 +65,6 @@ class StatePrioB extends GlobalSimulation {
     }
 
     private void arrivalB() {
-        nbrArrivalB++;
 
         queue.add(0, "B");
 
@@ -77,7 +74,6 @@ class StatePrioB extends GlobalSimulation {
     }
 
     private void servedB() {
-        nbrServedB++;
         queue.remove(0);
 
         serve();
