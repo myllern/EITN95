@@ -12,8 +12,8 @@ public class MainSimulation extends GlobalSimulation {
 
     public static void runSim() throws IOException {
         Event currentEvent;
-        StatePrioA state = new StatePrioA();
-        // StatePrioB state = new StatePrioB();
+        // StatePrioA state = new StatePrioA();
+        StatePrioB state = new StatePrioB();
         insertEvent(ARRIVAL_A, 0);
         insertEvent(MEASURE, measureTime);
         int nbrOfSamples = 1000;

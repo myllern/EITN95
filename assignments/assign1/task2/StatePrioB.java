@@ -49,7 +49,7 @@ class StatePrioB extends GlobalSimulation {
         else
             queue.add(queue.size() - 1, "A");
 
-        if (queue.size() + 1 == 1)
+        if (queue.size() == 1)
             insertEvent(SERVED_A, time + serviceTimeA);
 
         insertEvent(ARRIVAL_A, time + expDistPdf(lambda));
