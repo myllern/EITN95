@@ -6,8 +6,8 @@ public class MainSimulation extends GlobalSimulation {
 
     public static void main(String[] args) throws IOException {
         Event currentEvent;
-        // StateA state = new StateA();
-        State state = new State();
+        StateA state = new StateA();
+        // State state = new State();
         insertEvent(ARR_A, 0);
         insertEvent(MEASUREQA, measureTime);
         int nbrOfSamples = 1000;
@@ -26,6 +26,6 @@ public class MainSimulation extends GlobalSimulation {
         double meanQ = 1.0 * state.accumulatedInQ / nbrOfSamples;
         System.out.println("Mean number of jobs in buffer");
         System.out.println(meanQ);
-        System.out.println(state.countArrivalA);
+        // System.out.println(state.countArrivalA);
     }
 }

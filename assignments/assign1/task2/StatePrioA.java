@@ -50,17 +50,23 @@ class StateA extends GlobalSimulation {
     insertEvent(ARR_A, time + expDistPdf(lambda));
   }
 
+  // serviced an A
   private void delay() {
     nbrInQA--;
+
+    if (nbrInQA > 0) {
+      insertEvent(DELAY, time + serviceTimeA);
+    }
 
     // schedule arrival B
     insertEvent(ARR_B, time + lifeTime);
     // insertEvent(ARR_B, time + expDistPdf(lambda_d));
+
   }
 
   private void arrivalB() {
-    boolean isQueueAEmpty = nbrInQA == 0;
-    if (!isQueueAEmpty) {
+
+    if (nbrInQA > 0) {
       insertEvent(DELAY, time + serviceTimeA);
     } else {
 
