@@ -3,103 +3,96 @@ package assign1.task2;
 import java.util.*;
 
 class StateA extends GlobalSimulation {
-  public int nbrInQA = 0;
-  public int nbrInQB = 0;
+  public ArrayList<String> queue = new ArrayList<>();
   public int accumulatedInQ = 0;
 
   public double serviceTimeA = 0.002;
   public double serviceTimeB = 0.004;
   public double lifeTime = 1.0;
-  public double lambda = 150.0; // per sec
+  public double lambda = 3 * 150.0; // per sec
   public double mean = 1.0 / lambda; // per sec
   public double mean_d = 1.0;
   public double lambda_d = 1.0 / mean_d; // per sec
-  public boolean isBusy = false;
 
   static Random rand = new Random();
 
   public void treatEvent(Event x) {
     switch (x.eventType) {
-      case ARR_A:
+
+      case ARRIVAL_A:
         arrivalA();
         break;
-      case ARR_B:
-        arrivalB();
-        break;
-      case DELAY:
-        delay();
-        break;
-      case READY:
-        ready();
-        break;
-      case MEASUREQA:
-        measureQA();
+
+      case SERVED_A:
+        servedA();
         break;
 
+      case ARRIVAL_B:
+        arrivalB();
+        break;
+
+      case SERVED_B:
+        servedB();
+        break;
+
+      case MEASURE:
+        measure();
+        break;
     }
   }
 
   private void arrivalA() {
-    if (nbrInQA == 0) {
-      insertEvent(DELAY, time + serviceTimeA);
+    queue.add(0, "A");
+    if (queue.size() == 1) {
+      insertEvent(SERVED_A, time + serviceTimeA);
     }
 
-    nbrInQA++;
-
-    // schedule next arrival A
-    insertEvent(ARR_A, time + expDistPdf(lambda));
+    insertEvent(ARRIVAL_A, time + expDistPdf(lambda));
   }
 
-  // serviced an A
-  private void delay() {
-    nbrInQA--;
+  private void servedA() {
+    queue.remove(0);
+    insertEvent(ARRIVAL_B, time + lifeTime);
 
-    if (nbrInQA > 0) {
-      insertEvent(DELAY, time + serviceTimeA);
-    }
-
-    // schedule arrival B
-    insertEvent(ARR_B, time + lifeTime);
-    // insertEvent(ARR_B, time + expDistPdf(lambda_d));
-
+    serve();
   }
 
   private void arrivalB() {
+    if (queue.size() == 0)
+      queue.add("B");
+    else
+      queue.add(queue.size() - 1, "B");
 
-    if (nbrInQA > 0) {
-      insertEvent(DELAY, time + serviceTimeA);
-    } else {
-
-      if (nbrInQB == 0) {
-        insertEvent(READY, time + serviceTimeB);
-      }
-    }
-    nbrInQB++;
-  }
-
-  // ONLY CALLED WHEN server B
-  private void ready() {
-    nbrInQB--;
-
-    if (nbrInQA > 0) {
-      insertEvent(DELAY, time + serviceTimeA);
-
-    } else if (nbrInQB > 0) {
-      insertEvent(READY, time + serviceTimeB);
+    if (queue.size() == 1) {
+      insertEvent(SERVED_B, time + serviceTimeB);
     }
   }
 
-  private void measureQA() {
-    accumulatedInQ = nbrInQA + nbrInQB;
+  private void servedB() {
+    queue.remove(queue.size() - 1);
 
-    insertEvent(MEASUREQA, time + measureTime);
+    serve();
+  }
+
+  private void serve() {
+    if (queue.size() > 0) {
+      if (queue.get(0) == "A")
+        servedA();
+      else
+        servedB();
+    }
+  }
+
+  private void measure() {
+    accumulatedInQ = queue.size();
+
+    insertEvent(MEASURE, time + measureTime);
     printNbrInQueue();
   }
 
   public void printNbrInQueue() {
     System.out.println("-----");
-    System.out.println("A: " + nbrInQA);
-    System.out.println("B: " + nbrInQB);
+    System.out.println(queue.size());
     System.out.println("-----");
   }
 

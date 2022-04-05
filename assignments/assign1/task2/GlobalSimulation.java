@@ -1,11 +1,11 @@
 package assign1.task2;
 
 public class GlobalSimulation {
-    public static final int ARR_A = 1,
-            DELAY = 2,
-            ARR_B = 3,
-            READY = 4,
-            MEASUREQA = 5;
+    public static final int ARRIVAL_A = 1,
+            SERVED_A = 2,
+            ARRIVAL_B = 4,
+            SERVED_B = 5,
+            MEASURE = 6;
 
     public static double time = 0; // The global time variable
     public static double measureTime = 0.1; // The global time variable

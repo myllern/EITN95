@@ -2,95 +2,70 @@ package assign1.task2;
 
 import java.util.*;
 
-class State extends GlobalSimulation {
-    public int nbrInQA = 0;
-    public int nbrInQB = 0;
+class StateA extends GlobalSimulation {
+    public ArrayList<String> queue = new ArrayList<>();
     public int accumulatedInQ = 0;
 
     public double serviceTimeA = 0.002;
     public double serviceTimeB = 0.004;
     public double lifeTime = 1.0;
-    public double lambda = 150.0; // per sec
+    public double lambda = 3 * 150.0; // per sec
     public double mean = 1.0 / lambda; // per sec
     public double mean_d = 1.0;
     public double lambda_d = 1.0 / mean_d; // per sec
-
-    public int countArrivalA = 0;
 
     static Random rand = new Random();
 
     public void treatEvent(Event x) {
         switch (x.eventType) {
-            case ARR_A:
+
+            case ARRIVAL_A:
                 arrivalA();
                 break;
-            case ARR_B:
-                arrivalB();
-                break;
-            case DELAY:
-                delay();
-                break;
-            case READY:
-                ready();
-                break;
-            case MEASUREQA:
-                measureQA();
+
+            case SERVED_A:
+                servedA();
                 break;
 
+            case ARRIVAL_B:
+                arrivalB();
+                break;
+
+            case SERVED_B:
+                servedB();
+                break;
+
+            case MEASURE:
+                measure();
+                break;
         }
     }
 
     private void arrivalA() {
-        countArrivalA++;
-
-        boolean isEmptyQueue = nbrInQA == 0 && nbrInQB == 0;
-        if (isEmptyQueue) {
-            insertEvent(DELAY, time + serviceTimeA);
-        }
-
-        nbrInQA++;
-
-        // schedule next arrival A
-        insertEvent(ARR_A, time + expDistPdf(lambda));
     }
 
-    private void delay() {
-        nbrInQA--;
-
-        // schedule arrival B
-        // insertEvent(ARR_B, time + lifeTime);
-        insertEvent(ARR_B, time + expDistPdf(lambda_d));
+    private void servedA() {
     }
 
     private void arrivalB() {
-        if (nbrInQB == 0) {
-            insertEvent(READY, time + serviceTimeB);
-        }
-
-        nbrInQB++;
     }
 
-    private void ready() {
-        if (nbrInQB > 0) {
-            nbrInQB--;
-            insertEvent(READY, time + serviceTimeB);
-
-        } else if (nbrInQA > 0 && nbrInQB == 0) {
-            insertEvent(DELAY, time + serviceTimeA);
-        }
+    private void servedB() {
     }
 
-    private void measureQA() {
-        accumulatedInQ = nbrInQA + nbrInQB;
+    private void serve() {
+    }
 
-        insertEvent(MEASUREQA, time + measureTime);
+    private void measure() {
+        accumulatedInQ = queue.size();
+
+        insertEvent(MEASURE, time + measureTime);
         printNbrInQueue();
     }
 
     public void printNbrInQueue() {
         System.out.println("-----");
-        System.out.println("A: " + nbrInQA);
-        System.out.println("B: " + nbrInQB);
+        System.out.println(queue.size());
         System.out.println("-----");
     }
 
