@@ -27,15 +27,17 @@ To get the measurements we used 1000 measurements of Q2 and did that 100 times a
 
 ## 1
 
-Mean = 45.174 jobs
+Mean = 0.019 jobs
 
 ## 2
 
-Mean = 44.748 jobs
+Mean = 0.01 jobs
 
 ## 3
 
-Mean = 0.003 jobs
+Mean = 0.01 jobs
 
 ## 4
 
+* The prio B will has constant delay 1 s. This leads to many jobs of type A being done before any job B is ready, resulting in oscillating instable pattern where no job B are in the queue -> decrease in size or many job B in queue -> increase in size
+* For prio A, we always have capacity to handle the queue and therefore spikes happen only stochastically
