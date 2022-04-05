@@ -6,7 +6,8 @@ public class MainSimulation extends GlobalSimulation {
 
     public static void main(String[] args) throws IOException {
         Event currentEvent;
-        State state = new State();
+        StateA state = new StateA();
+        // State state = new State();
         insertEvent(ARR_A, 0);
         insertEvent(MEASUREQA, measureTime);
         int nbrOfSamples = 10000;

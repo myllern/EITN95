@@ -9,11 +9,13 @@ class State extends GlobalSimulation {
 
     public double serviceTimeA = 0.002;
     public double serviceTimeB = 0.004;
-    public double lifeTime = 1;
+    public double lifeTime = 1.0;
     public double lambda = 150.0; // per sec
+    public double mean = 1.0 / lambda; // per sec
+    public double mean_d = 1.0;
+    public double lambda_d = 1.0 / mean_d; // per sec
 
-    static int seed = 1;
-    static Random rand = new Random(seed);
+    static Random rand = new Random();
 
     public void treatEvent(Event x) {
         switch (x.eventType) {
@@ -52,7 +54,8 @@ class State extends GlobalSimulation {
         nbrInQA--;
 
         // schedule arrival B
-        insertEvent(ARR_B, time + lifeTime);
+        // insertEvent(ARR_B, time + lifeTime);
+        insertEvent(ARR_B, time + expDistPdf(lambda_d));
     }
 
     private void arrivalB() {
@@ -88,6 +91,6 @@ class State extends GlobalSimulation {
     }
 
     private double expDistPdf(double lambda) {
-        return (-1.0) * Math.log(1 - rand.nextDouble()) / (lambda);
+        return (-1.0) * Math.log(1 - rand.nextDouble()) / lambda;
     }
 }
