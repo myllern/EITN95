@@ -1,6 +1,5 @@
 package assign1.task2;
 
-import java.net.InetAddress;
 import java.util.*;
 
 class StatePrioB extends GlobalSimulation {
@@ -15,7 +14,9 @@ class StatePrioB extends GlobalSimulation {
     public double mean_d = 1.0;
     public double lambda_d = 1.0 / mean_d; // per sec
 
-    static Random rand = new Random(1);
+    static Random rand = new Random();
+
+    public ArrayList<Integer> ys = new ArrayList<>();
 
     public void treatEvent(Event x) {
         switch (x.eventType) {
@@ -56,7 +57,8 @@ class StatePrioB extends GlobalSimulation {
 
     private void servedA() {
         queue.remove(queue.size() - 1);
-        insertEvent(ARRIVAL_B, time + lifeTime);
+        // insertEvent(ARRIVAL_B, time + lifeTime);
+        insertEvent(ARRIVAL_B, time + expDistPdf(lambda_d));
 
         serve();
     }
@@ -86,6 +88,8 @@ class StatePrioB extends GlobalSimulation {
 
     private void measure() {
         accumulatedInQ = queue.size();
+
+        ys.add(queue.size());
 
         insertEvent(MEASURE, time + measureTime);
         printNbrInQueue();

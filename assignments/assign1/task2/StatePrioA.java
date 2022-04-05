@@ -15,6 +15,7 @@ class StatePrioA extends GlobalSimulation {
   public double lambda_d = 1.0 / mean_d; // per sec
 
   static Random rand = new Random();
+  public ArrayList<Integer> ys = new ArrayList<>();
 
   public void treatEvent(Event x) {
     switch (x.eventType) {
@@ -85,6 +86,8 @@ class StatePrioA extends GlobalSimulation {
 
   private void measure() {
     accumulatedInQ = queue.size();
+
+    ys.add(queue.size());
 
     insertEvent(MEASURE, time + measureTime);
     printNbrInQueue();

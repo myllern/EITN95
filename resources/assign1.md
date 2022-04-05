@@ -14,6 +14,9 @@ To get the measurements we used 1000 measurements of Q2 and did that 100 times a
 
 ## 2
 
+<!-- ----------------------------- -->
+<!-- ----------------------------- -->
+<!-- ----------------------------- -->
 
 # Task2
 
@@ -24,15 +27,15 @@ To get the measurements we used 1000 measurements of Q2 and did that 100 times a
 
 ## 1
 
-Mean = 14.7974 jobs
+Mean = 45.174 jobs
 
 ## 2
 
-Mean = 14.8771 jobs
+Mean = 44.748 jobs
 
 ## 3
 
-Mean = 14.9868 jobs
+Mean = 0.003 jobs
 
 ## 4
 

@@ -1,6 +1,8 @@
 package assign1.task2;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
 
 public class MainSimulation extends GlobalSimulation {
 
@@ -8,10 +10,10 @@ public class MainSimulation extends GlobalSimulation {
         runSim();
     }
 
-    public static void runSim() {
+    public static void runSim() throws IOException {
         Event currentEvent;
-        // StatePrioA state = new StatePrioA();
-        StatePrioB state = new StatePrioB();
+        StatePrioA state = new StatePrioA();
+        // StatePrioB state = new StatePrioB();
         insertEvent(ARRIVAL_A, 0);
         insertEvent(MEASURE, measureTime);
         int nbrOfSamples = 1000;
@@ -30,6 +32,16 @@ public class MainSimulation extends GlobalSimulation {
         double meanQ = 1.0 * state.accumulatedInQ / nbrOfSamples;
         System.out.println("Mean number of jobs in buffer");
         System.out.println(meanQ);
+
+        File file = new File("task_24.txt");
+        FileWriter fw = new FileWriter(file, StandardCharsets.UTF_8);
+        ArrayList<Integer> ys = state.ys;
+
+        for (int j = 0; j < ys.size(); j++) {
+            fw.write(ys.get(j).toString() + ";");
+        }
+
+        fw.close();
         // System.out.println(state.countArrivalA);
     }
 }
