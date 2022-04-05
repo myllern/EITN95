@@ -15,6 +15,8 @@ class State extends GlobalSimulation {
     public double mean_d = 1.0;
     public double lambda_d = 1.0 / mean_d; // per sec
 
+    public int countArrivalA = 0;
+
     static Random rand = new Random();
 
     public void treatEvent(Event x) {
@@ -39,6 +41,8 @@ class State extends GlobalSimulation {
     }
 
     private void arrivalA() {
+        countArrivalA++;
+
         boolean isEmptyQueue = nbrInQA == 0 && nbrInQB == 0;
         if (isEmptyQueue) {
             insertEvent(DELAY, time + serviceTimeA);

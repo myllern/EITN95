@@ -17,6 +17,11 @@ To get the measurements we used 1000 measurements of Q2 and did that 100 times a
 
 # Task2
 
+0.1 * 1000 = 100 seconds total
+
+150 * 100 = 15000 Job A arrivals
+
+
 ## 1
 
 Mean = 14.7974 jobs
@@ -27,7 +32,7 @@ Mean = 14.8771 jobs
 
 ## 3
 
-Mean = 15.0188 jobs
+Mean = 14.9868 jobs
 
 ## 4
 

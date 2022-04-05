@@ -59,24 +59,26 @@ class StateA extends GlobalSimulation {
   }
 
   private void arrivalB() {
-    if (nbrInQA > 0) {
+    boolean isQueueAEmpty = nbrInQA == 0;
+    if (!isQueueAEmpty) {
       insertEvent(DELAY, time + serviceTimeA);
-      nbrInQB++;
     } else {
+
       if (nbrInQB == 0) {
         insertEvent(READY, time + serviceTimeB);
       }
-      nbrInQB++;
     }
+    nbrInQB++;
   }
 
+  // ONLY CALLED WHEN server B
   private void ready() {
+    nbrInQB--;
+
     if (nbrInQA > 0) {
-      nbrInQA--;
       insertEvent(DELAY, time + serviceTimeA);
 
     } else if (nbrInQB > 0) {
-      nbrInQB--;
       insertEvent(READY, time + serviceTimeB);
     }
   }
@@ -85,7 +87,7 @@ class StateA extends GlobalSimulation {
     accumulatedInQ = nbrInQA + nbrInQB;
 
     insertEvent(MEASUREQA, time + measureTime);
-    // printNbrInQueue();
+    printNbrInQueue();
   }
 
   public void printNbrInQueue() {
