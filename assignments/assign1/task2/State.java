@@ -10,7 +10,7 @@ class State extends GlobalSimulation {
     public double serviceTimeA = 0.002;
     public double serviceTimeB = 0.004;
     public double lifeTime = 1;
-    public double meanArrivalToSystem = 1.0 * 1 / 150; // per sec
+    public double lambda = 150.0; // per sec
 
     static int seed = 1;
     static Random rand = new Random(seed);
@@ -45,7 +45,7 @@ class State extends GlobalSimulation {
         nbrInQA++;
 
         // schedule next arrival A
-        insertEvent(ARR_A, time + getPoissonRandom(meanArrivalToSystem));
+        insertEvent(ARR_A, time + expDistPdf(lambda));
     }
 
     private void delay() {
@@ -78,7 +78,6 @@ class State extends GlobalSimulation {
 
         insertEvent(MEASUREQA, time + measureTime);
         printNbrInQueue();
-
     }
 
     public void printNbrInQueue() {
@@ -88,19 +87,7 @@ class State extends GlobalSimulation {
         System.out.println("-----");
     }
 
-    public double getPoissonRandom(double mean) {
-        return mean;
-    }
-
-    public int getPoissonRandom2(double mean) {
-
-        double L = Math.exp(-mean);
-        int k = 0;
-        double p = 1.0;
-        do {
-            p = p * rand.nextDouble();
-            k++;
-        } while (p > L);
-        return k - 1;
+    private double expDistPdf(double lambda) {
+        return (-1.0) * Math.log(1 - rand.nextDouble()) / (lambda);
     }
 }
