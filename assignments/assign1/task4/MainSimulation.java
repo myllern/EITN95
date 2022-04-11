@@ -8,6 +8,7 @@ import java.io.*;
 
 public class MainSimulation extends Global {
 
+	
 	public static void main(String[] args) throws IOException {
 
 		// Signallistan startas och actSignal deklareras. actSignal �r den senast
@@ -15,6 +16,7 @@ public class MainSimulation extends Global {
 		// The signal list is started and actSignal is declaree. actSignal is the latest
 		// signal that has been fetched from the
 		// signal list in the main loop below.
+
 
 		Signal actSignal;
 		new SignalList();
@@ -26,9 +28,9 @@ public class MainSimulation extends Global {
 
 		QS Q1 = new QS();
 		Q1.sendTo = null;
+		Gen Generator = new Gen();
 
-
-		Generator.lambda = 9; // Generator ska generera nio kunder per sekund //Generator shall generate 9
+		Generator.lambda = 0.00333333333333333; // Generator ska generera nio kunder per sekund //Generator shall generate 9
 													// customers per second
 		Generator.sendTo = Q1; // De genererade kunderna ska skickas till k�systemet QS // The generated
 														// customers shall be sent to Q1
@@ -36,17 +38,18 @@ public class MainSimulation extends Global {
 		// H�r nedan skickas de f�rsta signalerna f�r att simuleringen ska komma ig�ng.
 		// To start the simulation the first signals are put in the signal list
 
+
+
 		SignalList.SendSignal(READY, Generator, time);
 		SignalList.SendSignal(MEASURE, Q1, time);
 
 		// Detta �r simuleringsloopen:
 		// This is the main loop
 
-		while (time < 100000) {
+		while (time < 10000000) {
 			actSignal = SignalList.FetchSignal();
 			time = actSignal.arrivalTime;
 			actSignal.destination.TreatSignal(actSignal);
-			System.out.println(actSignal.signalType);
 		}
 
 		// Slutligen skrivs resultatet av simuleringen ut nedan:
@@ -55,4 +58,8 @@ public class MainSimulation extends Global {
 		System.out.println("Mean number of customers in queuing system: " + 1.0 * Q1.accumulated / Q1.noMeasurements);
 
 	}
+
+
+
+
 }

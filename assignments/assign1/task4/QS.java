@@ -10,13 +10,14 @@ class QS extends Proc {
 	public Proc sendTo;
 	public ArrayList<String> queue = new ArrayList<>();
 	Random slump = new Random();
-	public double serviceTime = 0;
+	public double serviceTime = .00416666666667;
 	static Random rand = new Random();
 
 	public void TreatSignal(Signal x) {
 		switch (x.signalType) {
 
 			case ARRIVAL_A: {
+
 				if (queue.size() == 0)
 					queue.add("A");
 				else
@@ -24,20 +25,20 @@ class QS extends Proc {
 
 				if (queue.size() == 1)
 					SignalList.SendSignal(SERVED, this, time + expDistPdf(serviceTime));
-					SignalList.SendSignal(READY, Generator, time);
 				break;
 			}
 
 			case ARRIVAL_B: {
+
 				queue.add(0, "B");
 				if (queue.size() == 1)
 					SignalList.SendSignal(SERVED, this, time + expDistPdf(serviceTime));
-				SignalList.SendSignal(SERVED, this, time + expDistPdf(serviceTime));
 				break;
 			}
 
 			case SERVED: {
 				System.out.println(queue);
+
 				if (queue.size() > 0) {
 					queue.remove(0);
 					SignalList.SendSignal(SERVED, this, time);
@@ -47,6 +48,7 @@ class QS extends Proc {
 			}
 
 			case MEASURE: {
+
 				noMeasurements++;
 				accumulated = accumulated + numberInQueue;
 				SignalList.SendSignal(MEASURE, this, time + 2 * slump.nextDouble());
