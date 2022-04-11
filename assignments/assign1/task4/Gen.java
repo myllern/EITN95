@@ -23,8 +23,17 @@ class Gen extends Proc {
 	public void TreatSignal(Signal x) {
 		switch (x.signalType) {
 			case READY: {
+
+
+
+
+				
+				if (rand.nextDouble() <= 0.8) {
+					SignalList.SendSignal(ARRIVAL_B, sendTo, time);
+				} else {
+					SignalList.SendSignal(ARRIVAL_A, sendTo, time);
+				}
 				SignalList.SendSignal(READY, this, time + (2.0 / lambda) * rand.nextDouble());
-				SignalList.SendSignal(ARRIVAL_A, sendTo, time);
 				break;
 			}
 		}

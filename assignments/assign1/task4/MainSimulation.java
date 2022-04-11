@@ -46,7 +46,7 @@ public class MainSimulation extends Global {
 		// Detta �r simuleringsloopen:
 		// This is the main loop
 
-		while (time < 10000000) {
+		while (time < 100000000) {
 			actSignal = SignalList.FetchSignal();
 			time = actSignal.arrivalTime;
 			actSignal.destination.TreatSignal(actSignal);
@@ -56,7 +56,8 @@ public class MainSimulation extends Global {
 		// Finally the result of the simulation is printed below:
 
 		System.out.println("Mean number of customers in queuing system: " + 1.0 * Q1.accumulated / Q1.noMeasurements);
-
+		System.out.println("Mean time in que of normal person: " + 1.0 * Q1.accQueueTimeA / Q1.numberInQueueA);
+		System.out.println("Mean time in que of special person: " + 1.0 * Q1.accQueueTimeB / Q1.numberInQueueB);
 	}
 
 
