@@ -27,7 +27,7 @@ public class MainSimulation extends Global {
 		QS Q1 = new QS();
 		Q1.sendTo = null;
 
-		Gen Generator = new Gen();
+
 		Generator.lambda = 9; // Generator ska generera nio kunder per sekund //Generator shall generate 9
 													// customers per second
 		Generator.sendTo = Q1; // De genererade kunderna ska skickas till k�systemet QS // The generated
@@ -46,6 +46,7 @@ public class MainSimulation extends Global {
 			actSignal = SignalList.FetchSignal();
 			time = actSignal.arrivalTime;
 			actSignal.destination.TreatSignal(actSignal);
+			System.out.println(actSignal.signalType);
 		}
 
 		// Slutligen skrivs resultatet av simuleringen ut nedan:

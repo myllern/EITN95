@@ -1,6 +1,9 @@
 package assign1.task2;
 
+import java.io.FileWriter;
 import java.util.*;
+
+import assign1.task1.MainSimulation;
 
 class StatePrioA extends GlobalSimulation {
   public ArrayList<String> queue = new ArrayList<>();

@@ -8,36 +8,54 @@ import java.io.*;
 class QS extends Proc {
 	public int numberInQueue = 0, accumulated, noMeasurements;
 	public Proc sendTo;
+	public ArrayList<String> queue = new ArrayList<>();
 	Random slump = new Random();
+	public double serviceTime = 0;
+	static Random rand = new Random();
 
 	public void TreatSignal(Signal x) {
 		switch (x.signalType) {
 
-			case ARRIVAL: {
-				numberInQueue++;
-				if (numberInQueue == 1) {
-					SignalList.SendSignal(READY, this, time + 0.2 * slump.nextDouble());
-				}
-			}
-				break;
+			case ARRIVAL_A: {
+				if (queue.size() == 0)
+					queue.add("A");
+				else
+					queue.add(queue.size() - 1, "A");
 
-			case READY: {
-				numberInQueue--;
-				if (sendTo != null) {
-					SignalList.SendSignal(ARRIVAL, sendTo, time);
-				}
-				if (numberInQueue > 0) {
-					SignalList.SendSignal(READY, this, time + 0.2 * slump.nextDouble());
-				}
-			}
+				if (queue.size() == 1)
+					SignalList.SendSignal(SERVED, this, time + expDistPdf(serviceTime));
+					SignalList.SendSignal(READY, Generator, time);
 				break;
+			}
+
+			case ARRIVAL_B: {
+				queue.add(0, "B");
+				if (queue.size() == 1)
+					SignalList.SendSignal(SERVED, this, time + expDistPdf(serviceTime));
+				SignalList.SendSignal(SERVED, this, time + expDistPdf(serviceTime));
+				break;
+			}
+
+			case SERVED: {
+				System.out.println(queue);
+				if (queue.size() > 0) {
+					queue.remove(0);
+					SignalList.SendSignal(SERVED, this, time);
+
+				}
+				break;
+			}
 
 			case MEASURE: {
 				noMeasurements++;
 				accumulated = accumulated + numberInQueue;
 				SignalList.SendSignal(MEASURE, this, time + 2 * slump.nextDouble());
-			}
 				break;
+			}
 		}
+	}
+
+	private double expDistPdf(double lambda) {
+		return (-1.0) * Math.log(1 - rand.nextDouble()) / lambda;
 	}
 }
