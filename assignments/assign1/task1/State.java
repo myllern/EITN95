@@ -13,10 +13,12 @@ class State extends GlobalSimulation {
     public int nbrOfMeasurements = 0;
 
     public int sizeQ1 = 10;
-    public double timeBetweenArrivalQ1 = 5;
+    public double timeBetweenArrivalQ1 = 1;
     public double meanQ1 = 2.1;
     public double lamdaQ1 = 1.0 / meanQ1;
     public double serviceTimeQ2 = 2.0;
+    public double meanMeasure = 5.0;
+    public double lambdaMeasure = 1.0 / meanMeasure;
 
     Random rand = new Random();
 
@@ -85,11 +87,11 @@ class State extends GlobalSimulation {
     private void measure() {
         accNbrInQ2 += nbrInQ2;
         nbrOfMeasurements++;
-        insertEvent(MEASURE, sampleTime);
-        // System.out.println("------------");
-        // System.out.println("nbr in q1: " + nbrInQ1);
-        // System.out.println("nbr in q2: " + nbrInQ2);
-        // System.out.println("------------");
+        insertEvent(MEASURE, time + expDistPdf(lambdaMeasure));
+        System.out.println("------------");
+        System.out.println("nbr in q1: " + nbrInQ1);
+        System.out.println("nbr in q2: " + nbrInQ2);
+        System.out.println("------------");
     }
 
     private double expDistPdf(double lambda) {

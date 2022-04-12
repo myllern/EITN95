@@ -16,6 +16,7 @@ public class MainSimulation extends GlobalSimulation {
             reset();
             Event currentEvent;
             State state = new State();
+            state.timeBetweenArrivalQ1 = 5.0;
             insertEvent(ARRIVAL_Q1, 0);
             insertEvent(MEASURE, sampleTime);
 
