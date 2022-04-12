@@ -17,7 +17,7 @@ class State extends GlobalSimulation {
     if (type < 6)
       startLife(type);
     else
-      endLife(type - 5);
+      endLife(type);
 
   }
 
@@ -31,34 +31,34 @@ class State extends GlobalSimulation {
         isWorking[1] = false;
         isWorking[2] = false;
         isWorking[5] = false;
-
         break;
+
       case BROKEN_2:
         isWorking[2] = false;
-
         break;
+
       case BROKEN_3:
         isWorking[3] = false;
         isWorking[4] = false;
-
         break;
+
       case BROKEN_4:
         isWorking[4] = false;
-
         break;
 
       case BROKEN_5:
         isWorking[5] = false;
-
         break;
 
       default:
+        System.out.println(id);
         throw new Error("UNREACHABLE CASE!!! State.java");
     }
 
     if (isSystemBroken() && isFirstTime) {
       systemLifeTime = time;
       isFirstTime = false;
+      isSystemAlive = false;
     }
   }
 
