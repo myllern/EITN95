@@ -14,11 +14,11 @@ To get the measurements we used 1000 measurements of Q2 and did that 100 times a
 
 RESULTS FROM OTHER IMPLEMENTATION IN BRANCH task1NewSolution
 
-| Time | $NQ_2$ |
-| ---- | ------ |
-| 1    | 1.09   |
-| 2    | 0.75   |
-| 5    | 0.1    |
+| Time | $NQ_2$  |
+| ---- | ------- |
+| 1    | 9.56889 |
+| 2    | 4.30167 |
+| 5    | 0.42570 |
 
 
 ## 2
