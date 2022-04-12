@@ -1,6 +1,17 @@
 # Task1
 
-## 1
+## New solution result
+
+RESULTS FROM OTHER IMPLEMENTATION IN BRANCH task1NewSolution
+
+| Time | $NQ_2$  | $P("rejected")$    |
+| ---- | ------- | ------------------ |
+| 1    | 9.56889 | 0.5211274272463934 |
+| 2    | 4.30167 | 0.0725295970450416 |
+| 5    | 0.42570 | 0.0                |
+
+
+## Old code results
 
 $NQ_2$ = "number of customers in Q2" 
 
@@ -11,17 +22,6 @@ To get the measurements we used 1000 measurements of Q2 and did that 100 times a
 | 1    | 2.9404700000000004 |
 | 2    | 0.5808700000000002 |
 | 5    | 0.2065699999999999 |
-
-RESULTS FROM OTHER IMPLEMENTATION IN BRANCH task1NewSolution
-
-| Time | $NQ_2$  |
-| ---- | ------- |
-| 1    | 9.56889 |
-| 2    | 4.30167 |
-| 5    | 0.42570 |
-
-
-## 2
 
 <!-- ----------------------------- -->
 <!-- ----------------------------- -->
