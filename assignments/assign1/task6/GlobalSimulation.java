@@ -5,13 +5,7 @@ public class GlobalSimulation {
             START_2 = 2,
             START_3 = 3,
             START_4 = 4,
-            START_5 = 5,
-            //
-            BROKEN_1 = 6,
-            BROKEN_2 = 7,
-            BROKEN_3 = 8,
-            BROKEN_4 = 9,
-            BROKEN_5 = 10;
+            START_5 = 5;
 
     public static double time = 0; // The global time variable
     public static EventListClass eventList = new EventListClass(); // The event list used in the program
