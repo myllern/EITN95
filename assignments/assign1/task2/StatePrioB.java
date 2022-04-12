@@ -58,8 +58,8 @@ class StatePrioB extends GlobalSimulation {
 
     private void servedA() {
         queue.remove(queue.size() - 1);
-        insertEvent(ARRIVAL_B, time + lifeTime);
-        // insertEvent(ARRIVAL_B, time + expDistPdf(lambda_d));
+        // insertEvent(ARRIVAL_B, time + lifeTime);
+        insertEvent(ARRIVAL_B, time + expDistPdf(lambda_d));
 
         serve();
     }
