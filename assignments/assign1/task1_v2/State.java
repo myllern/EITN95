@@ -1,6 +1,5 @@
 
-package assign1.task1;
-
+package assign1.task1_v2;
 import java.util.*;
 
 class State extends GlobalSimulation {

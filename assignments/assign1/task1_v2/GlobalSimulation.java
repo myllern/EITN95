@@ -1,5 +1,4 @@
-package assign1.task1;
-
+package assign1.task1_v2;
 public class GlobalSimulation {
     public static final int ARRIVAL_Q1 = 1,
             SERVED_Q1 = 2,

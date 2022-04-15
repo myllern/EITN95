@@ -2,65 +2,116 @@ package assign1.task4;
 
 import java.util.*;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormat;
 
 //Denna klass �rver Global s� att man kan anv�nda time och signalnamnen utan punktnotation
 //It inherits Proc so that we can use time and the signal names without dot notation
 
 public class MainSimulation extends Global {
 
-	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 
-		// Signallistan startas och actSignal deklareras. actSignal �r den senast
-		// utplockade signalen i huvudloopen nedan.
-		// The signal list is started and actSignal is declaree. actSignal is the latest
-		// signal that has been fetched from the
-		// signal list in the main loop below.
+		int numberOfSim = 1000;
 
+		writeFile(numberOfSim);
 
-		Signal actSignal;
-		new SignalList();
-
-		// H�r nedan skapas de processinstanser som beh�vs och parametrar i dem ges
-		// v�rden.
-		// Here process instances are created (two queues and one generator) and their
-		// parameters are given values.
-
-		QS Q1 = new QS();
-		Q1.sendTo = null;
-		Gen Generator = new Gen();
-
-		Generator.lambda = 0.00333333333333333; // Generator ska generera nio kunder per sekund //Generator shall generate 9
-													// customers per second
-		Generator.sendTo = Q1; // De genererade kunderna ska skickas till k�systemet QS // The generated
-														// customers shall be sent to Q1
-
-		// H�r nedan skickas de f�rsta signalerna f�r att simuleringen ska komma ig�ng.
-		// To start the simulation the first signals are put in the signal list
-
-
-
-		SignalList.SendSignal(READY, Generator, time);
-		SignalList.SendSignal(MEASURE, Q1, time);
-
-		// Detta �r simuleringsloopen:
-		// This is the main loop
-
-		while (time < 100000000) {
-			actSignal = SignalList.FetchSignal();
-			time = actSignal.arrivalTime;
-			actSignal.destination.TreatSignal(actSignal);
-		}
-
-		// Slutligen skrivs resultatet av simuleringen ut nedan:
-		// Finally the result of the simulation is printed below:
-
-		System.out.println("Mean number of customers in queuing system: " + 1.0 * Q1.accumulated / Q1.noMeasurements);
-		System.out.println("Mean time in que of normal person: " + 1.0 * Q1.accQueueTimeA / Q1.numberInQueueA);
-		System.out.println("Mean time in que of special person: " + 1.0 * Q1.accQueueTimeB / Q1.numberInQueueB);
 	}
 
+	public static ArrayList<Double> runSim(int nrOfSim, double partSpecial) {
 
+		int x = 0;
 
+		ArrayList<Double> avgTimeCustomerA = new ArrayList<>();
+		ArrayList<Double> avgTimeCustomerB = new ArrayList<>();
+
+		do {
+
+			Signal actSignal;
+			new SignalList();
+			boolean run = true;
+
+			QS Q1 = new QS();
+			Q1.sendTo = null;
+
+			Gen Generator = new Gen();
+			Generator.lambda = 0.00416666666667;
+			Generator.sendTo = Q1;
+
+			SignalList.SendSignal(READY, Generator, time);
+			SignalList.SendSignal(MEASURE, Q1, time);
+
+			while (run) {
+
+				Generator.partSpecial = partSpecial;
+				actSignal = SignalList.FetchSignal();
+				time = actSignal.arrivalTime;
+				actSignal.destination.TreatSignal(actSignal);
+				if (actSignal.signalType == END_ARRIVALS) {
+					run = false;
+					Generator.run = false;
+				}
+
+			}
+
+			avgTimeCustomerA.addAll(genTimeList(Q1.doneQueueA));
+			avgTimeCustomerB.addAll(genTimeList(Q1.doneQueueB));
+
+			x++;
+		} while (x < nrOfSim);
+
+		ArrayList<Double> statArr = new ArrayList<>(); /// part/A/B
+
+		statArr.add(partSpecial);
+		statArr.add(arrAvg(avgTimeCustomerA));
+		statArr.add(arrAvg(avgTimeCustomerB));
+
+		return statArr;
+
+	}
+
+	public static ArrayList<Double> writeFile(int nrOfSim) throws InterruptedException, IOException {
+
+		final DecimalFormat df = new DecimalFormat("0.0");
+
+		File file = new File("../task_4_1000Arrivals.txt");
+		FileWriter fw = new FileWriter(file, StandardCharsets.UTF_8);
+
+		for (double i = 0.1; i <= 0.9; i = i + 0.1) {
+			ArrayList<Double> arr = runSim(nrOfSim, i);
+
+			double A = arr.get(1);
+			double B = arr.get(2);
+
+			if (Double.isNaN(arr.get(1)))
+				A = 0;
+
+			if (Double.isNaN(arr.get(2)))
+				B = 0;
+
+			fw.write(df.format(arr.get(0)) + " " + df.format(A) + " " + df.format(B) + "\r\n");
+			System.out.println(df.format(arr.get(0)) + " " + df.format(A) + " " + df.format(B));
+
+		}
+		fw.close();
+
+		return null;
+	}
+
+	private static double arrAvg(ArrayList<Double> list) {
+		double total = 0;
+		for (int i = 0; i < list.size(); i++)
+			total = total + list.get(i);
+		return (total / list.size());
+	}
+
+	private static ArrayList<Double> genTimeList(ArrayList<Customer> list) {
+		ArrayList<Double> timeList = new ArrayList<>();
+		for (Customer customer : list) {
+			timeList.add(customer.getTimeInQueue());
+		}
+		return timeList;
+
+	}
 
 }

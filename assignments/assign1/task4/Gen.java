@@ -17,25 +17,32 @@ class Gen extends Proc {
 	public Proc sendTo; // Anger till vilken process de genererade kunderna ska skickas //Where to send
 						// customers
 	public double lambda; // Hur m�nga per sekund som ska generas //How many to generate per second
+	public double partSpecial;
+	public boolean run = true;;
+
+	public int nrOfArr = 100, arrives = 0;
 
 	// H�r nedan anger man vad som ska g�ras n�r en signal kommer //What to do when
 	// a signal arrives
 	public void TreatSignal(Signal x) {
 		switch (x.signalType) {
 			case READY: {
+				if (run){
 
-
-
-
-				
-				if (rand.nextDouble() <= 0.8) {
-					SignalList.SendSignal(ARRIVAL_B, sendTo, time);
-				} else {
-					SignalList.SendSignal(ARRIVAL_A, sendTo, time);
+					if (rand.nextDouble() <= partSpecial) {
+						SignalList.SendSignal(ARRIVAL_B, sendTo, time);
+					} else {
+						SignalList.SendSignal(ARRIVAL_A, sendTo, time);
+					}
+					SignalList.SendSignal(READY, this, time + expDistPdf(lambda));
 				}
-				SignalList.SendSignal(READY, this, time + (2.0 / lambda) * rand.nextDouble());
-				break;
+					break;
 			}
+
 		}
+	}
+
+	private double expDistPdf(double lambda) {
+		return (-1.0) * Math.log(1 - rand.nextDouble()) / lambda;
 	}
 }
