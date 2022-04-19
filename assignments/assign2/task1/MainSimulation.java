@@ -9,7 +9,17 @@ public class MainSimulation extends GlobalSimulation {
     }
 
     public static void part1() throws IOException {
-        System.out.println("hello world2s");
-    }
+        reset();
+        Event currentEvent;
+        State state = new State();
+        insertEvent(ARRIVAL, 0);
+        insertEvent(MEASURE, 0 + state.T);
 
+        while (!state.isDone) {
+            currentEvent = eventList.fetchEvent();
+            time = currentEvent.eventTime;
+            state.treatEvent(currentEvent);
+        }
+
+    }
 }

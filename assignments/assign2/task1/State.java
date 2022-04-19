@@ -53,11 +53,20 @@ class State extends GlobalSimulation {
 
         isDone = measurment_idx >= M;
 
+        if (measurment_idx % 50 == 0)
+            printNbrInQueue();
+
         if (!isDone)
             insertEvent(MEASURE, time + T);
     }
 
     private double expDistPdf(double lambda) {
         return (-1.0) * Math.log(1 - rand.nextDouble()) / lambda;
+    }
+
+    public void printNbrInQueue() {
+        System.out.println("-----");
+        System.out.println(nbrOfCustomers);
+        System.out.println("-----");
     }
 }
