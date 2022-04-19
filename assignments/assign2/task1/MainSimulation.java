@@ -1,6 +1,8 @@
 package assign2.task1;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class MainSimulation extends GlobalSimulation {
 
@@ -20,6 +22,17 @@ public class MainSimulation extends GlobalSimulation {
             time = currentEvent.eventTime;
             state.treatEvent(currentEvent);
         }
+
+        File file = new File("assign2_task1_p1.txt");
+        FileWriter fw = new FileWriter(file, StandardCharsets.UTF_8);
+
+        int[] ys = state.ys;
+
+        for (int j = 0; j < ys.length; j++) {
+            fw.write(ys[j] + "\n");
+        }
+
+        fw.close();
 
     }
 }
