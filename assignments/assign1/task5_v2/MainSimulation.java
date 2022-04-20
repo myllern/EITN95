@@ -1,6 +1,7 @@
 package assign1.task5_v2;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainSimulation extends Global {
 
@@ -8,14 +9,28 @@ public class MainSimulation extends Global {
 
     Signal actSignal;
     new SignalList();
-    Dispatcher dispatcher = new Dispatcher();
+    ArrayList<QS> queues = genQueues(5);
+    
+    Dispatcher dispatcher = new Dispatcher(queues);
     SignalList.SendSignal(DISPATCHER_ARRIVAL, dispatcher, time);
 
-    while (dispatcher.arrivalIdx < 15) {
+    while (!dispatcher.isDone) {
       actSignal = SignalList.FetchSignal();
       time = actSignal.arrivalTime;
       actSignal.destination.TreatSignal(actSignal);
-
     }
+
   }
+
+  private static ArrayList<QS> genQueues(int N){
+    ArrayList<QS> arr = new ArrayList<>();
+
+    for (int i = 1; i <= N; i++) {
+      arr.add(new QS(i));
+    }
+  
+    return arr;
+  } 
+
+  
 }
