@@ -9,7 +9,7 @@ public class Dispatcher extends Proc {
     Random rand = new Random();
 
     private int nextQueue = 0;
-    public double mean = 0.11;
+    public double mean = 0.15;
     public ArrayList<QS> queues;
     public int nbrOfArrivals = 0;
     public int maxNbrOfArrivals = 10;
@@ -33,10 +33,10 @@ public class Dispatcher extends Proc {
     }
 
     private void handleDispatcherArrival() {
-        System.out.println("Arrival to dispatcher");
-        nbrOfArrivals++;
-        if (nbrOfArrivals > maxNbrOfArrivals)
-            isDone = true;
+        // System.out.println("Arrival to dispatcher");
+        // nbrOfArrivals++;
+        // if (nbrOfArrivals > maxNbrOfArrivals)
+        //     isDone = true;
 
         loadDistributionAlgorithm();
 
