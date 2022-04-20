@@ -15,9 +15,7 @@ public class Dispatcher extends Proc {
 
         switch (x.signalType) {
             case DISPATCHER_ARRIVAL:
-
                 handleDispatcherArrival();
-
                 break;
 
         }

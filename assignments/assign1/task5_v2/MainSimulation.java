@@ -11,11 +11,11 @@ public class MainSimulation extends Global {
     Dispatcher dispatcher = new Dispatcher();
     SignalList.SendSignal(DISPATCHER_ARRIVAL, dispatcher, time);
 
-    
     while (dispatcher.arrivalIdx < 15) {
       actSignal = SignalList.FetchSignal();
       time = actSignal.arrivalTime;
       actSignal.destination.TreatSignal(actSignal);
 
     }
+  }
 }
