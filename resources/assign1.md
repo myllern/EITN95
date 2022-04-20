@@ -1,5 +1,13 @@
 # Task5
 
+## Random
+
+| mean arrival times | $mean nbr in system$ |
+| ------------------ | -------------------- |
+| 0.11               | 46.4139              |
+| 0.15               | 9.46985              |
+| 2.00               | 0.2584               |
+
 ## Round robin
 
 | mean arrival times | $mean nbr in system$ |
@@ -8,6 +16,18 @@
 | 0.15               | 6.05675              |
 | 2.00               | 0.24725              |
 
+## Smallest
+
+| mean arrival times | $mean nbr in system$ |
+| ------------------ | -------------------- |
+| 0.11               | 10.6773              |
+| 0.15               | 3.9307               |
+| 2.00               | 0.2503               |
+
+
+## Best algorithm?
+
+Smallest number of jobs. 
 
 # Task1
 

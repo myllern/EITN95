@@ -10,7 +10,8 @@ public class MainSimulation extends Global {
     ArrayList<QS> queues = genQueues(5);
 
     Dispatcher dispatcher = new Dispatcher(queues);
-    dispatcher.algorithm = ROUND_ROUND;
+    dispatcher.algorithm = SMALLEST_NBR_JOBS;
+    // 0.11, 0.15 and 2.0
     dispatcher.mean = 2.0;
 
     Sampler sampler = new Sampler(queues);
@@ -35,20 +36,20 @@ public class MainSimulation extends Global {
   private static void results(Dispatcher dispatcher, Sampler sampler, ArrayList<QS> queues) {
     System.out.println("Simulation complete");
     if (dispatcher.algorithm == RANDOM) {
-      System.out.println("Algorithm: Random");
+      System.out.println("Algorithm --- Random");
     }
     if (dispatcher.algorithm == ROUND_ROUND) {
-      System.out.println("Algorithm: Round Robin");
+      System.out.println("Algorithm --- Round Robin");
     }
     if (dispatcher.algorithm == SMALLEST_NBR_JOBS) {
-      System.out.println("Algorithm: Smallest Jobs");
+      System.out.println("Algorithm --- Smallest Jobs");
     }
 
     System.out.println("Arrival mean, unit seconds");
-    System.out.println(dispatcher.mean);
+    System.out.println("\t" + dispatcher.mean);
 
     System.out.println("Mean nbr of jobs in the system:");
-    System.out.println(sampler.mean());
+    System.out.println("\t" + sampler.mean());
 
   }
 

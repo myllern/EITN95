@@ -36,7 +36,7 @@ public class Dispatcher extends Proc {
         // System.out.println("Arrival to dispatcher");
         // nbrOfArrivals++;
         // if (nbrOfArrivals > maxNbrOfArrivals)
-        //     isDone = true;
+        // isDone = true;
 
         loadDistributionAlgorithm();
 
@@ -59,7 +59,24 @@ public class Dispatcher extends Proc {
     }
 
     private void random() {
+        double rnd = rand.nextDouble();
+        int idx = 0;
 
+        if (rnd < 0.20) {
+            idx = 0;
+        } else if (rnd < 0.4) {
+            idx = 1;
+
+        } else if (rnd < 0.6) {
+            idx = 2;
+
+        } else if (rnd < 0.8) {
+            idx = 3;
+
+        } else {
+            idx = 4;
+        }
+        SignalList.SendSignal(ARRIVAL, queues.get(idx), time);
     }
 
     private void roundRobin() {
@@ -72,6 +89,19 @@ public class Dispatcher extends Proc {
     }
 
     private void smallestNbrJobs() {
+        int idx = -1;
+        int nbrOfJobs = Integer.MAX_VALUE;
+
+        int i = 0;
+        for (QS queue : queues) {
+            if (queue.nbrInQueue < nbrOfJobs) {
+                idx = i;
+                nbrOfJobs = queue.nbrInQueue;
+            }
+            i++;
+        }
+
+        SignalList.SendSignal(ARRIVAL, queues.get(idx), time);
     }
 
     private double uniformDistribution(double mean) {
