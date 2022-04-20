@@ -6,7 +6,7 @@ public class QS extends Proc {
     Random rand = new Random();
     public int nbrInQueue = 0;
     public double mean = 0.5;
-    public double lambda = 1.0 / mean;  
+    public double lambda = 1.0 / mean;
     public int id;
 
     public QS(int id) {
@@ -30,7 +30,7 @@ public class QS extends Proc {
     }
 
     private void handleArrival() {
-        // System.out.println("Arring to queue: " + id);
+        System.out.println("Arring to queue: " + id);
         nbrInQueue++;
         if (nbrInQueue == 1) {
             SignalList.SendSignal(SERVED, this, time + expDistPdf(lambda));
@@ -39,12 +39,11 @@ public class QS extends Proc {
     }
 
     private void handleSERVED() {
-        // System.out.println("Served, queue: " + id);
+        System.out.println("Served, queue: " + id);
         nbrInQueue--;
-        if (nbrInQueue > 0){
+        if (nbrInQueue > 0) {
             SignalList.SendSignal(SERVED, this, time + expDistPdf(lambda));
         }
-
 
     }
 

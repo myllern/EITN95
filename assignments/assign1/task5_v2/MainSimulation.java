@@ -10,8 +10,10 @@ public class MainSimulation extends Global {
     Signal actSignal;
     new SignalList();
     ArrayList<QS> queues = genQueues(5);
-    
+  
     Dispatcher dispatcher = new Dispatcher(queues);
+    dispatcher.algorithm = ROUND_ROUND;
+
     SignalList.SendSignal(DISPATCHER_ARRIVAL, dispatcher, time);
 
     while (!dispatcher.isDone) {
