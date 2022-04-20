@@ -7,9 +7,9 @@ public class Customer {
     private double timeInQueue;
     public Boolean done = false;
     public Boolean doneInQueue = false;
+    public Boolean last = false;
 
     public Customer(double timeArrival) {
-
         this.timeArrival = timeArrival;
     }
 
