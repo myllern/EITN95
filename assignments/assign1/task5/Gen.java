@@ -94,6 +94,8 @@ class Gen extends Proc {
 				}
 
 			}
+
+
 			case SINGLE: {
 				if (sentArrivals < nrOfArrivals && run) {
 					SignalList.SendSignal(ARRIVAL, Q1, time);
@@ -113,20 +115,20 @@ class Gen extends Proc {
 		return (-1.0) * Math.log(1 - rand.nextDouble()) / lambda;
 	}
 
-	private int findLowQueue(){
-		int nbrInQ = 0;
-		ArrayList<QS> sameLengthQ = new ArrayList<QS>();
+	// private int findLowQueue(){
+	// 	int nbrInQ = 0;
+	// 	ArrayList<QS> sameLengthQ = new ArrayList<QS>();
 
-		for (QS qs : queueList) {
-			if (nbrInQ <= qs.inQueue.size()){
-				sameLengthQ.add(qs);
+	// 	for (QS qs : queueList) {
+	// 		if (nbrInQ <= qs.inQueue.size()){
+	// 			sameLengthQ.add(qs);
 
-				// TODO HERE
-			}	
-		}
+	// 			// TODO HERE
+	// 		}	
+	// 	}
 
-	return
-	}
+	// return
+	// }
 
 	public QS getRandomElement(List<QS> list)
     {

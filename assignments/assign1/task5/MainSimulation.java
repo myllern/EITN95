@@ -21,8 +21,6 @@ public class MainSimulation extends Global {
 
 	public static ArrayList<Double> runSim(int nrOfSim, int type) {
 
-		ArrayList<Double> avgTimeCustomerA = new ArrayList<>();
-		ArrayList<Double> avgTimeCustomerB = new ArrayList<>();
 
 		// int x = 0;
 		// do {
@@ -40,6 +38,7 @@ public class MainSimulation extends Global {
 		Generator.lambda = 1;
 
 		SignalList.SendSignal(RANDOM, Generator, time);
+
 		// SignalList.SendSignal(MEASURE, Q1, time);
 
 
@@ -61,8 +60,8 @@ public class MainSimulation extends Global {
 
 		ArrayList<Double> statArr = new ArrayList<>(); /// part/A/B
 
-		statArr.add(arrAvg(avgTimeCustomerA));
-		statArr.add(arrAvg(avgTimeCustomerB));
+		// statArr.add(arrAvg(avgTimeCustomerA));
+		// statArr.add(arrAvg(avgTimeCustomerB));
 
 		return statArr;
 
