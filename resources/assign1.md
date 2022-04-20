@@ -1,3 +1,14 @@
+# Task5
+
+## Round robin
+
+| mean arrival times | $mean nbr in system$ |
+| ------------------ | -------------------- |
+| 0.11               | 28.29335             |
+| 0.15               | 6.05675              |
+| 2.00               | 0.24725              |
+
+
 # Task1
 
 ## New solution result

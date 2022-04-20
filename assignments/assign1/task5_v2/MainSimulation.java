@@ -8,7 +8,7 @@ public class MainSimulation extends Global {
   public static void main(String[] args) throws IOException, InterruptedException {
 
     ArrayList<QS> queues = genQueues(5);
-  
+
     Dispatcher dispatcher = new Dispatcher(queues);
     dispatcher.algorithm = ROUND_ROUND;
     dispatcher.mean = 2.0;
@@ -17,7 +17,6 @@ public class MainSimulation extends Global {
 
     Signal actSignal;
     new SignalList();
-
 
     SignalList.SendSignal(DISPATCHER_ARRIVAL, dispatcher, time);
     SignalList.SendSignal(MEASURE, sampler, time + 5);
@@ -47,21 +46,20 @@ public class MainSimulation extends Global {
 
     System.out.println("Arrival mean, unit seconds");
     System.out.println(dispatcher.mean);
-    
+
     System.out.println("Mean nbr of jobs in the system:");
     System.out.println(sampler.mean());
 
   }
 
-  private static ArrayList<QS> genQueues(int N){
+  private static ArrayList<QS> genQueues(int N) {
     ArrayList<QS> arr = new ArrayList<>();
 
     for (int i = 1; i <= N; i++) {
       arr.add(new QS(i));
     }
-  
-    return arr;
-  } 
 
-  
+    return arr;
+  }
+
 }
