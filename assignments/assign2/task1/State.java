@@ -9,6 +9,7 @@ class State extends GlobalSimulation {
     public double lambda = 8.0;
     public int T = 1;
     public int M = 1000;
+
     public int nbrOfCustomers = 0;
 
     public int[] ys = new int[M];
@@ -53,8 +54,8 @@ class State extends GlobalSimulation {
 
         isDone = measurment_idx >= M;
 
-        if (measurment_idx % 50 == 0)
-            printNbrInQueue();
+        // if (measurment_idx % 50 == 0)
+        // printNbrInQueue();
 
         if (!isDone)
             insertEvent(MEASURE, time + T);
@@ -68,5 +69,11 @@ class State extends GlobalSimulation {
         System.out.println("-----");
         System.out.println(nbrOfCustomers);
         System.out.println("-----");
+    }
+
+    public void printConfig() {
+        System.out.println("lambda\n\t" + lambda);
+        System.out.println("Servers N\n\t" + N);
+        System.out.println("Nbr of Measurements\n\t" + M);
     }
 }

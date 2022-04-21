@@ -5,3 +5,5 @@
 The transient phase is about 150-200 seconds long
 
 ## 2.
+
+About 10 seconds 

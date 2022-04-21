@@ -2,7 +2,6 @@ package assign2.task1;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
 public class MainSimulation extends GlobalSimulation {
 
@@ -14,6 +13,11 @@ public class MainSimulation extends GlobalSimulation {
         reset();
         Event currentEvent;
         State state = new State();
+        state.x = 10;
+        state.lambda = 80;
+
+        state.printConfig();
+
         insertEvent(ARRIVAL, 0);
         insertEvent(MEASURE, 0 + state.T);
 
