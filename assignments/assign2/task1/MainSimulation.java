@@ -6,17 +6,17 @@ import java.nio.charset.StandardCharsets;
 public class MainSimulation extends GlobalSimulation {
 
     public static void main(String[] args) throws IOException {
-        part1();
+        Config c = new Config();
+        System.out.println(c.N);
+        confidenceInterval();
     }
 
-    public static void part1() throws IOException {
+    static double part1To3() {
         reset();
         Event currentEvent;
-        State state = new State();
-        state.x = 10;
-        state.lambda = 80;
+        State state = new State(Config.defaultConfig());
 
-        state.printConfig();
+        // state.printConfig();
 
         insertEvent(ARRIVAL, 0);
         insertEvent(MEASURE, 0 + state.T);
@@ -27,6 +27,28 @@ public class MainSimulation extends GlobalSimulation {
             state.treatEvent(currentEvent);
         }
 
+        double mean = state.mean(10);
+        // System.out.println(mean);
+        System.out.println(String.format("%.2f", mean));
+        // writeResultsToFile(state);
+        return mean;
+    }
+
+    /*
+     * ALGORITHM
+     * 1. Run the simulation to get mean q length
+     * 2. Calculate mean of the means sampled
+     * 3. Calculate stddev of the means sampled
+     * 4. Calculate confidence (in this case based on σ mean )
+     * 5. Change random seed
+     * 6. Run again
+     * 7. until confidence interval small enough
+     */
+    static void confidenceInterval() {
+
+    }
+
+    static void writeResultsToFile(State state) throws IOException {
         File file = new File("assign2_task1_p1.txt");
         FileWriter fw = new FileWriter(file, StandardCharsets.UTF_8);
 
@@ -37,6 +59,6 @@ public class MainSimulation extends GlobalSimulation {
         }
 
         fw.close();
-
     }
+
 }

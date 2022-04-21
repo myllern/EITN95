@@ -7,3 +7,16 @@ The transient phase is about 150-200 seconds long
 ## 2.
 
 About 10 seconds 
+
+## 3.
+
+Around 300-400 seconds
+
+
+## 4.
+
+For the system we want the steady state solution and therefore need to throw away the transient phase. Looking at the graph we see that only a small amount of samples need to be thrown.
+
+| mean  | #throw away |
+| ----- | ----------- |
+| 39.75 | 10          |
