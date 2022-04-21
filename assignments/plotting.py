@@ -5,12 +5,12 @@ import matplotlib.pyplot as plt
 
 
 def main():
-    # assign2_task1_p1()
-    assign2_task1_p4()
+    assign2_task1_p1()
+    # assign2_task1_p4()
 
 
 def assign2_task1_p1():
-    with open("./assign2_task_1.txt") as f:
+    with open("./assign_2_task_1.txt") as f:
         ys = np.fromiter(
             map(
                 lambda data: int(data),
@@ -19,8 +19,8 @@ def assign2_task1_p1():
             dtype=np.int64
         )
 
-        T = 4
-        M = 1000
+        T = 1
+        M = 4000
 
         xs = np.linspace(T, T * M, M)
         plt.plot(xs, ys)

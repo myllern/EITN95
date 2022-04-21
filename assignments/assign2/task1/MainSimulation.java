@@ -40,17 +40,14 @@ public class MainSimulation extends GlobalSimulation {
 
     /*
      * ALGORITHM
-     * 1. Run the simulation to get mean q length
+     * 1. Run the simulation to get mean
      * 2. Calculate mean of the means sampled
      * 3. Calculate stddev of the means sampled
      * 4. Calculate confidence (in this case based on σ mean )
-     * 5. Change random seed
-     * 6. Run again
-     * 7. until confidence interval small enough
      */
     static void confidenceInterval() throws IOException {
         Config config = new Config();
-        config.setN(1000)
+        config.setN(100)
                 .setx(10)
                 .setlambda(4.0)
                 .setT(4)
@@ -61,7 +58,7 @@ public class MainSimulation extends GlobalSimulation {
         List<Double> means = new LinkedList<>();
 
         for (int i = 0; i < iterations; i++) {
-            means.add(runSim(config, throwAway, false));
+            means.add(runSim(config, throwAway, true));
         }
 
         double meanSum = means.stream()
