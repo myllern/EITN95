@@ -51,7 +51,7 @@ public class MainSimulation extends GlobalSimulation {
                 .setx(10)
                 .setlambda(4.0)
                 .setT(4)
-                .setM(1000);
+                .setM(4000);
         int throwAway = 10;
 
         int iterations = 100;
@@ -70,7 +70,8 @@ public class MainSimulation extends GlobalSimulation {
         double std = calcStandardDevEstimate(mMean, means);
 
         System.out.println();
-        System.out.println(String.format("%.4f", std));
+        System.out.println("Std estimation: \t" + String.format("%.4f", std));
+        System.out.println("CI length: \t" + String.format("%.4f", 2 * 1.96 * std));
         System.out.println("95% confidence interval:");
         System.out.println("\t" + String.format("%.4f", mMean) + " ± " + String.format("%.4f", 1.96 * std));
 
