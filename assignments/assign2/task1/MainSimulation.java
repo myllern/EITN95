@@ -51,10 +51,10 @@ public class MainSimulation extends GlobalSimulation {
                 .setx(10)
                 .setlambda(4.0)
                 .setT(4)
-                .setM(4000);
+                .setM(1000);
         int throwAway = 10;
 
-        int iterations = 100;
+        int iterations = 1000;
         List<Double> means = new LinkedList<>();
 
         for (int i = 0; i < iterations; i++) {
