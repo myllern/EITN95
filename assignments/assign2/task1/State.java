@@ -2,6 +2,8 @@
 package assign2.task1;
 
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 class State extends GlobalSimulation {
     public int N;
@@ -12,19 +14,19 @@ class State extends GlobalSimulation {
 
     public int nbrOfCustomers = 0;
 
-    public int[] ys = new int[M];
+    private int[] ys;
     private int measurement_idx = 0;
     public boolean isDone = false;
 
     Random rand = new Random();
 
     State(Config config) {
-        
         this.N = config.N;
         this.x = config.x;
         this.lambda = config.lambda;
         this.T = config.T;
         this.M = config.M;
+        ys = new int[this.M];
     }
 
     public void treatEvent(Event x) {
@@ -79,6 +81,10 @@ class State extends GlobalSimulation {
         }
 
         return 1.0 * (double) meanSum / ((double) ys.length - throwAway);
+    }
+
+    List<Integer> measurements() {
+        return Arrays.stream(ys).boxed().collect(Collectors.toList());
     }
 
     public void printNbrInQueue() {
