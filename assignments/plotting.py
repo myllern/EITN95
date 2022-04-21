@@ -18,7 +18,7 @@ def assign2_task1_p1():
             dtype=np.int64
         )
 
-        T = 1
+        T = 4
         M = 1000
 
         xs = np.linspace(T, T * M, M)
