@@ -1,9 +1,16 @@
 package assign1.task4_v2;
 
 public class MainSimulation extends Global {
+    static int wantedNbrOfArrivals = 1000;
+
     public static void main(String[] args) {
-        int wantedNbrOfArrivals = 1000000;
-        double specialPart = 0.1;
+        double specialPart = 0.9;
+        runSim(specialPart, 0);
+
+    }
+
+    private static void runSim(double specialPart, int nrOfSims) {
+
         QS qs = new QS();
         Gen generator = new Gen(specialPart, wantedNbrOfArrivals, qs);
 
@@ -18,7 +25,13 @@ public class MainSimulation extends Global {
             actSignal.destination.TreatSignal(actSignal);
         }
 
-        System.out.println("Mean Normal time in queue: " + qs.normalTimeinQ / qs.normalArrivals);
+        double meanNormalTimeInQueue = qs.normalTimeinQ / qs.normalArrivals;
+        System.out.println("Mean Normal time in queue: " + meanNormalTimeInQueue);
+        double meanSpecialTimeInQueue = qs.specialTimeInQ / qs.specialArrivals;
+        System.out.println("Mean Special time in queue: " + meanSpecialTimeInQueue);
+
+        System.out.println("Nbr of Arrived Customers:  Special: " + qs.specialArrivals +  "  Normal: " + qs.normalArrivals);
+
 
     }
 

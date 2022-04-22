@@ -23,7 +23,6 @@ public class Gen extends Proc {
 
         switch (x.signalType) {
             case GEN_ARRIVAL:
-
                 handleArrivals();
                 // genTest();
                 break;
@@ -34,17 +33,27 @@ public class Gen extends Proc {
 
     private void handleArrivals() {
         arrivalIdx++;
+
         double nextTime = expDistPdf(lambda);
 
-        SignalList.SendSignal(NORMAL_ARRIVAL, qs, time);
-        
+        generateArrival(partSpecial);
+
         if (arrivalIdx == wantedNbrOfArrivals) {
             SignalList.SendSignal(LAST_ARRIVAL_SENT, qs, time);
-
             return;
         }
 
         SignalList.SendSignal(GEN_ARRIVAL, this, time + nextTime);
+    }
+
+    private void generateArrival(double partSpecial) {
+
+        if (rand.nextDouble() > partSpecial) {
+            SignalList.SendSignal(NORMAL_ARRIVAL, qs, time);
+        } else {
+            SignalList.SendSignal(SPECIAL_ARRIVAL, qs, time);
+        }
+
     }
 
     private double expDistPdf(double lambda) {
@@ -61,7 +70,6 @@ public class Gen extends Proc {
     public int sumOfExp = 0;
 
     private void genTest(double nextTime) {
-
 
         System.out.println("------------");
         System.out.println("Arrival index: " + arrivalIdx);

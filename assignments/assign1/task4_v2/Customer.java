@@ -11,6 +11,15 @@ public class Customer {
     }
 
     @Override
+    public boolean equals(Object o) {
+        final Customer other = (Customer) o;
+        return other.type == type;
+    }
+
+
+
+
+    @Override
     public String toString() {
         return "Type: " + type + " || Enter time: " + timeEnter;
     }
