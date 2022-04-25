@@ -71,8 +71,6 @@ public class QS extends Proc {
             Customer removedCustomer = queue.remove(0);
             handleCustomerLeavingQueueSystem(removedCustomer);
 
-            // servedCustomers.add(removedCustomer);
-
             if (queue.size() > 0) {
                 double serviceTime = expDistPdf(lambda);
                 SignalList.SendSignal(SERVED, this, time + serviceTime);
@@ -125,7 +123,13 @@ public class QS extends Proc {
 
     /**
      * 
-     * Testing Corner
+     * 
+     * 
+     * 
+     * 
+     * Testing Corners
+     * 
+     * 
      * 
      **/
 
