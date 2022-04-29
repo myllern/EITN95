@@ -10,12 +10,14 @@ public class Gen extends Proc {
     double mean = 1.0 * lambda;
     public Boolean lastArrivalSent;
     int wantedNbrOfArrivals;
-    QS qs;
+    QS qs1;
+    QS qs2;
 
-    Gen(double partSpecial, int nbrOfArrivals, QS qs) {
+    Gen(double partSpecial, int nbrOfArrivals, QS qs1, QS qs2) {
         this.partSpecial = partSpecial;
         this.wantedNbrOfArrivals = nbrOfArrivals;
-        this.qs = qs;
+        this.qs1 = qs1;
+        this.qs2 = qs2;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class Gen extends Proc {
         generateArrival(partSpecial);
 
         if (arrivalIdx == wantedNbrOfArrivals) {
-            SignalList.SendSignal(LAST_ARRIVAL_SENT, qs, time);
+            SignalList.SendSignal(LAST_ARRIVAL_SENT, qs1, time);
             return;
         }
 
@@ -47,9 +49,9 @@ public class Gen extends Proc {
     private void generateArrival(double partSpecial) {
 
         if (rand.nextDouble() > partSpecial) {
-            SignalList.SendSignal(NORMAL_ARRIVAL, qs, time);
+            SignalList.SendSignal(NORMAL_ARRIVAL, qs1, time);
         } else {
-            SignalList.SendSignal(SPECIAL_ARRIVAL, qs, time);
+            SignalList.SendSignal(SPECIAL_ARRIVAL, qs1, time);
         }
 
     }

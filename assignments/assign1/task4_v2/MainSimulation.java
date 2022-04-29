@@ -14,7 +14,6 @@ public class MainSimulation extends Global {
         // partOne();
         partTwo();
 
-
     }
 
     public static void partOne() throws InterruptedException, IOException {
@@ -73,7 +72,7 @@ public class MainSimulation extends Global {
 
         double avgAccTotalNormalAvgTime = getAvg(accTotalNormalAvgTime, nbrOfSimulations);
         double avgAcccTotalSpecialAvgTime = getAvg(accTotalSpecialAvgTime, nbrOfSimulations);
-        double avgNbrOfExceededTimes =getAvg(accTotalNumberOfExceedTime, nbrOfSimulations);
+        double avgNbrOfExceededTimes = getAvg(accTotalNumberOfExceedTime, nbrOfSimulations);
 
         double[] arr = { partSpecial, avgAccTotalNormalAvgTime, avgAcccTotalSpecialAvgTime, avgNbrOfExceededTimes };
         return arr;
@@ -86,7 +85,7 @@ public class MainSimulation extends Global {
 
         QS qs = new QS();
 
-        Gen generator = new Gen(partSpecial, nbrOfArrivals, qs);
+        Gen generator = new Gen(partSpecial, nbrOfArrivals, qs, null);
 
         SignalList.SendSignal(GEN_ARRIVAL, generator, time);
 
@@ -97,7 +96,6 @@ public class MainSimulation extends Global {
             actSignal.destination.TreatSignal(actSignal);
         }
         double[] arr = { partSpecial, qs.avgNormalTimeInQueue(), qs.avgSpecialTimeInQueue(), qs.nbrOfQueueTimeExeeded };
-
 
         return arr;
 
@@ -115,8 +113,10 @@ public class MainSimulation extends Global {
         // FileWriter fw = new FileWriter(file, StandardCharsets.UTF_8);
         System.out.println("***********************");
         for (double[] arrOfParts : nbrOfArrivaList) {
-            fw.write(arrOfParts[0] + " " + Math.round(arrOfParts[1]) + " " + Math.round(arrOfParts[2]) + " "+ arrOfParts[3] + "\r\n");
-            System.out.println((arrOfParts[0] + " " + Math.round(arrOfParts[1]) + " " + Math.round(arrOfParts[2]) + " "+ arrOfParts[3]));
+            fw.write(arrOfParts[0] + " " + Math.round(arrOfParts[1]) + " " + Math.round(arrOfParts[2]) + " "
+                    + arrOfParts[3] + "\r\n");
+            System.out.println((arrOfParts[0] + " " + Math.round(arrOfParts[1]) + " " + Math.round(arrOfParts[2]) + " "
+                    + arrOfParts[3]));
 
         }
         fw.close();

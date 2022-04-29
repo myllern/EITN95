@@ -7,7 +7,7 @@ import java.util.Random;
 public class QS extends Proc {
     int normalArrivals;
     int specialArrivals;
-    int maxTimeInQueue = 60 * 15;
+    int maxTimeInQueue = 900;
     public int nbrOfQueueTimeExeeded = 0;
     Random rand = new Random();
     double lambda = (double) 1 / (60 * 4);
