@@ -6,8 +6,6 @@ public class Customer {
     public double timeLeaveQueue;
     public boolean addedToDoneQueue = false;
 
-
-
     Customer(String type, double timeEnterQueue) {
         this.timeEnterQueue = timeEnterQueue;
         this.type = type;
@@ -15,13 +13,17 @@ public class Customer {
 
     @Override
     public boolean equals(Object o) {
-        final Customer other = (Customer) o;
-        return other.type == type;
+        if (this.type == ((Customer) o).type) {
+            return true;
+        }
+        return false;
+
     }
 
     @Override
     public String toString() {
-    return "Type: " + this.type + " ||Q Enter time: " + this.timeEnterQueue + " ||Q Leave Time " + this.timeLeaveQueue
+        return "Type: " + this.type + " ||Q Enter time: " + this.timeEnterQueue + " ||Q Leave Time "
+                + this.timeLeaveQueue
                 + " Time in Queu: " + (timeLeaveQueue - timeEnterQueue) + " \n";
     }
 

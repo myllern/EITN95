@@ -1,5 +1,6 @@
 package assign1.task4_v2;
 
+import java.nio.channels.NonWritableChannelException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -23,20 +24,34 @@ public class QS extends Proc {
         switch (x.signalType) {
             case NORMAL_ARRIVAL:
                 handleNormalArrival();
+                // handleSpecialArrival();
+                // System.out.println(inSystem);
                 break;
             case SERVED:
                 handleServed();
                 break;
             case SPECIAL_ARRIVAL:
                 handleSpecialArrival();
+                // System.out.println(inSystem);
                 break;
             case LAST_ARRIVAL_SENT:
                 handleLastArrival();
                 break;
+            case DONE_IN_QUEUE:
+                handleDoneInQueue();
+                break;
         }
     }
 
+    private void handleDoneInQueue() {
+        double serviceTime = expDistPdf(lambda);
+        handleCustomerDoneInQueue();
+        SignalList.SendSignal(SERVED, this, time + serviceTime);
+
+    }
+
     private void handleNormalArrival() {
+
         normalArrivals++;
         addNewNormalCustomerToSystem();
 
@@ -49,40 +64,42 @@ public class QS extends Proc {
     }
 
     private void addNewNormalCustomerToSystem() {
-        Customer newCustomer = new Customer("Normal", time);
-        inSystem.add(newCustomer);
-        if (inSystem.size() == 1) {
-            double serviceTime = expDistPdf(lambda);
-            handleCustomerDoneInQueue();
-            SignalList.SendSignal(SERVED, this, time + serviceTime);
+        Customer newCustomer = new Customer(NORMAL, time);
+        if (inSystem.size() == 0) {
+            inSystem.add(newCustomer);
+            SignalList.SendSignal(DONE_IN_QUEUE, this, time);
+        } else {
+            inSystem.add(newCustomer);
         }
+
     }
 
-    private void addNewSpecialCustomerToSystem() {
-        Customer newCustomer = new Customer("Special", time);
-        inSystem.add(newCustomer);
-        if (inSystem.size() == 1) {
-            double serviceTime = expDistPdf(lambda);
-            handleCustomerDoneInQueue();
-            SignalList.SendSignal(SERVED, this, time + serviceTime);
-        } else {
-            inSystem.remove(inSystem.size() - 1);
-            int index = inSystem.indexOf(newCustomer);
-            if (index == -1) {
-                inSystem.add(0, newCustomer);
-            } else {
-                inSystem.add(index + 1, newCustomer);
-            }
+    private void addNewSpecialCustomerToSystem() { // SUPER MESSY METHOD BUT WOORKS WELL
+        int indexSpecial = inSystem.indexOf(new Customer(SPECIAL, time));
+        int indexNormal = inSystem.indexOf(new Customer(NORMAL, time));
+        Customer newCustomer = new Customer(SPECIAL, time);
+        if (indexSpecial + indexNormal == -2) {
+            inSystem.add(0, newCustomer);
+            SignalList.SendSignal(DONE_IN_QUEUE, this, time);
+        }
+        if (indexNormal == -1 && indexSpecial >= 0) {
+            inSystem.add(newCustomer);
 
+        }
+        if (indexNormal >= 0 && indexSpecial == -1) {
+            inSystem.add(0, newCustomer);
+        }
+
+        if (indexNormal >= 0 && indexSpecial >= 0) {
+            inSystem.add(indexNormal, newCustomer);
         }
     }
 
     private void handleServed() {
         inSystem.remove(0);
         if (inSystem.size() > 0) {
-            double serviceTime = expDistPdf(lambda);
-            handleCustomerDoneInQueue();
-            SignalList.SendSignal(SERVED, this, time + serviceTime);
+            SignalList.SendSignal(DONE_IN_QUEUE, this, time);
+
         }
         if (inSystem.size() == 0 && noMoreArrivals) {
             systemIsDone = true;
@@ -106,16 +123,16 @@ public class QS extends Proc {
     }
 
     public void addTotalTimeInQueue(Customer removedCustomer) {
-        if (removedCustomer.type == "Normal") {
+        if (removedCustomer.type == NORMAL) {
             totalNormalTimeInQueue += removedCustomer.timeLeaveQueue - removedCustomer.timeEnterQueue;
         } else {
             totalSpecialTimeInQueue += removedCustomer.timeLeaveQueue - removedCustomer.timeEnterQueue;
         }
     }
 
-    public void checkIfTimeExceeded(Customer customer){
+    public void checkIfTimeExceeded(Customer customer) {
         double timeInQueue = customer.timeLeaveQueue - customer.timeEnterQueue;
-        if(timeInQueue > maxTimeInQueue){
+        if (timeInQueue > maxTimeInQueue) {
             nbrOfQueueTimeExeeded++;
         }
     }
@@ -133,5 +150,12 @@ public class QS extends Proc {
         }
         return 0;
     }
+
+    // public void testEquals() {
+    // ArrayList<Customer> testQ = new ArrayList<>();
+    // testQ.add(new Customer(SPECIAL, time));
+    // System.out.println(testQ.indexOf(new Customer(NORMAL, time)));
+
+    // }
 
 }

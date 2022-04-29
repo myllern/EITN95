@@ -7,14 +7,13 @@ import java.util.ArrayList;
 public class MainSimulation extends Global {
     static final double[] arrayOfParts = { 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 };
     static final int[] nbrOfArrivalsArr = { 20, 50, 100, 1000 };
-    static final int nbrOfSimulations = 1;
+    static final int nbrOfSimulations = 1000;
     public static ArrayList<ArrayList<double[]>> finalArray = new ArrayList<>();
 
     public static void main(String[] args) throws InterruptedException, IOException {
         // partOne();
-        //partTwo();
+        partTwo();
 
-        runSingleSim(0, 1000);
 
     }
 
@@ -99,8 +98,7 @@ public class MainSimulation extends Global {
         }
         double[] arr = { partSpecial, qs.avgNormalTimeInQueue(), qs.avgSpecialTimeInQueue(), qs.nbrOfQueueTimeExeeded };
 
-        System.out.println(qs.doneInQ);
-        System.out.println(qs.nbrOfQueueTimeExeeded);
+
         return arr;
 
     }
