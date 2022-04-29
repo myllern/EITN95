@@ -1,55 +1,86 @@
 package assign1.task4_v2;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MainSimulation extends Global {
     static final double[] arrayOfParts = { 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 };
-
-    static int[] nbrOfArrivalsArr = { 20, 50, 100, 1000 };
-    static ArrayList<double[]> finalArr;
-    static int i = 0;
+    static final int[] nbrOfArrivalsArr = { 20, 50, 100, 1000 };
+    static final int nbrOfSimulations = 1;
+    public static ArrayList<ArrayList<double[]>> finalArray = new ArrayList<>();
 
     public static void main(String[] args) throws InterruptedException, IOException {
+        // partOne();
+        //partTwo();
 
+        runSingleSim(0, 1000);
+
+    }
+
+    public static void partOne() throws InterruptedException, IOException {
+
+        genFinalArray(); // runs sim and gen array containing all nbrOfArrivals with all parts
+        // evry diff part is ran "nbrOfSimulations" times'
+        int arrivalIndex = 1;
+        for (ArrayList<double[]> nbrOfarrivaList : finalArray) {
+
+            writeFile(nbrOfarrivaList, arrivalIndex);
+            arrivalIndex++;
+
+        }
+
+    }
+
+    public static void partTwo() throws InterruptedException, IOException {
+
+        genFinalArray(); // runs sim and gen array containing all nbrOfArrivals with all parts
+        // evry diff part is ran "nbrOfSimulations" times'
+        int arrivalIndex = 1;
+        for (ArrayList<double[]> nbrOfarrivaList : finalArray) {
+
+            writeFile(nbrOfarrivaList, arrivalIndex);
+            arrivalIndex++;
+
+        }
+
+    }
+
+    public static void genFinalArray() {
         for (int nbrOfArrivals : nbrOfArrivalsArr) {
-
-            finalArr = new ArrayList<>();
-
-            for (int i = 0; i < arrayOfParts.length; i++) {
-                double[] arrOfMultiSimOfSpecialPart = runMultipleSim(10000, arrayOfParts[i], nbrOfArrivals);
-                System.out.println(arrOfMultiSimOfSpecialPart[0] + " " + arrOfMultiSimOfSpecialPart[1] + " "
-                        + arrOfMultiSimOfSpecialPart[2]);
-
-                // finalArr.add(runMultipleSim(1000, arrayOfParts[i], nbrOfArrivals));
+            ArrayList<double[]> arrListOfParts = new ArrayList<>();
+            for (double partSpecial : arrayOfParts) {
+                double[] arrOfParts = runMultipleSim(partSpecial, nbrOfArrivals);
+                arrListOfParts.add(arrOfParts);
             }
-
-            writeFile(finalArr);
-        }
-    }
-
-    private static double[] runMultipleSim(int nbrOfSims, double partSpecial, int nbrOfArrivals) {
-        double totalTimeNormal = 0;
-        double totalTimeSpecial = 0;
-
-        for (int i = 0; i < nbrOfSims; i++) {
-            double[] arr = runSim(partSpecial, nbrOfArrivals);
-            totalTimeNormal += arr[1];
-            totalTimeSpecial += arr[2];
+            finalArray.add(arrListOfParts);
         }
 
-        double meanTimeAfterMultipleSimNormal = meanTimeCalculator(nbrOfSims, totalTimeNormal);
-        double meanTimeAfterMultipleSimSpecial = meanTimeCalculator(nbrOfSims, totalTimeSpecial);
-
-        double[] runMultipleSimArr = { partSpecial, meanTimeAfterMultipleSimNormal, meanTimeAfterMultipleSimSpecial };
-
-        return runMultipleSimArr;
     }
 
-    public static double[] runSim(double partSpecial, int nbrOfArrivals) {
+    public static double[] runMultipleSim(double partSpecial, int nbrOfArrivals) {
+        int i = 0;
+        double accTotalNormalAvgTime = 0;
+        double accTotalSpecialAvgTime = 0;
+        int accTotalNumberOfExceedTime = 0;
+
+        while (i < nbrOfSimulations) {
+            double[] totalAvgTimeArr = runSingleSim(partSpecial, nbrOfArrivals);
+            accTotalNormalAvgTime += totalAvgTimeArr[1];
+            accTotalSpecialAvgTime += totalAvgTimeArr[2];
+            accTotalNumberOfExceedTime += totalAvgTimeArr[3];
+            i++;
+        }
+
+        double avgAccTotalNormalAvgTime = getAvg(accTotalNormalAvgTime, nbrOfSimulations);
+        double avgAcccTotalSpecialAvgTime = getAvg(accTotalSpecialAvgTime, nbrOfSimulations);
+        double avgNbrOfExceededTimes =getAvg(accTotalNumberOfExceedTime, nbrOfSimulations);
+
+        double[] arr = { partSpecial, avgAccTotalNormalAvgTime, avgAcccTotalSpecialAvgTime, avgNbrOfExceededTimes };
+        return arr;
+    }
+
+    public static double[] runSingleSim(double partSpecial, int nbrOfArrivals) {
 
         Signal actSignal;
         new SignalList();
@@ -60,50 +91,38 @@ public class MainSimulation extends Global {
 
         SignalList.SendSignal(GEN_ARRIVAL, generator, time);
 
-        while (!qs.queueDone) {
+        while (!qs.systemIsDone) {
 
             actSignal = SignalList.FetchSignal();
             time = actSignal.arrivalTime;
             actSignal.destination.TreatSignal(actSignal);
         }
-        double meanTimeInNormal = meanTimeCalculator(qs.normalArrivals, qs.normalTimeinQ);
-        double meanTmeInSpecial = meanTimeCalculator(qs.specialArrivals, qs.specialTimeInQ);
+        double[] arr = { partSpecial, qs.avgNormalTimeInQueue(), qs.avgSpecialTimeInQueue(), qs.nbrOfQueueTimeExeeded };
 
-        double[] avgQueueTimeDouble = { partSpecial, meanTimeInNormal, meanTmeInSpecial };
-
-        return avgQueueTimeDouble;
+        System.out.println(qs.doneInQ);
+        System.out.println(qs.nbrOfQueueTimeExeeded);
+        return arr;
 
     }
 
-    private static double meanTimeCalculator(double totalArrivals, double totalTimeInQueue) {
-        return totalTimeInQueue / totalArrivals;
+    public static double getAvg(double total, int nbrOfElements) {
+        return total / (double) nbrOfElements;
     }
 
-    public static ArrayList<Double> writeFile(ArrayList<double[]> finalArr)
+    public static ArrayList<Double> writeFile(ArrayList<double[]> nbrOfArrivaList, int arrivalIndex)
             throws InterruptedException, IOException {
 
-        FileWriter fw = new FileWriter("../task_4_" + i + "Arrivals.txt");
+        FileWriter fw = new FileWriter("../task_4_" + arrivalIndex + "_Arrivals.txt");
         // File file = new File("../task_4_1000Arrivals.txt");
         // FileWriter fw = new FileWriter(file, StandardCharsets.UTF_8);
-
-        for (double[] statArr : finalArr) {
-            double normal = statArr[1];
-            double special = statArr[2];
-
-            if (Double.isNaN(statArr[1]))
-                normal = 0;
-
-            if (Double.isNaN(statArr[2]))
-                special = 0;
-
-            fw.write((statArr[0] + " " + (normal) + " " +
-                    (special) + "\r\n"));
+        System.out.println("***********************");
+        for (double[] arrOfParts : nbrOfArrivaList) {
+            fw.write(arrOfParts[0] + " " + Math.round(arrOfParts[1]) + " " + Math.round(arrOfParts[2]) + " "+ arrOfParts[3] + "\r\n");
+            System.out.println((arrOfParts[0] + " " + Math.round(arrOfParts[1]) + " " + Math.round(arrOfParts[2]) + " "+ arrOfParts[3]));
 
         }
-
         fw.close();
-        i++;
         return null;
-    }
 
+    }
 }

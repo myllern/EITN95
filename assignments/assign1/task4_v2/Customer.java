@@ -2,11 +2,14 @@ package assign1.task4_v2;
 
 public class Customer {
     public String type;
-    public double timeEnter;
-    public double timeInQueue; // still in system
+    public double timeEnterQueue;
+    public double timeLeaveQueue;
+    public boolean addedToDoneQueue = false;
 
-    Customer(String type, double timeEnter) {
-        this.timeEnter = timeEnter;
+
+
+    Customer(String type, double timeEnterQueue) {
+        this.timeEnterQueue = timeEnterQueue;
         this.type = type;
     }
 
@@ -16,16 +19,10 @@ public class Customer {
         return other.type == type;
     }
 
-
-
-
     @Override
     public String toString() {
-        return "Type: " + type + " || Enter time: " + timeEnter;
-    }
-
-    public void leaveQueue(double timeLeave) {
-        this.timeInQueue = timeLeave - timeEnter;
+    return "Type: " + this.type + " ||Q Enter time: " + this.timeEnterQueue + " ||Q Leave Time " + this.timeLeaveQueue
+                + " Time in Queu: " + (timeLeaveQueue - timeEnterQueue) + " \n";
     }
 
 }

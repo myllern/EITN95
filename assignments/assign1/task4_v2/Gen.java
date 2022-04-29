@@ -8,8 +8,8 @@ public class Gen extends Proc {
     Random rand = new Random();
     double lambda = (double) 1 / (60 * 5);
     double mean = 1.0 * lambda;
+    public Boolean lastArrivalSent;
     int wantedNbrOfArrivals;
-    Boolean generatorDone = false;
     QS qs;
 
     Gen(double partSpecial, int nbrOfArrivals, QS qs) {
@@ -26,9 +26,7 @@ public class Gen extends Proc {
                 handleArrivals();
                 // genTest();
                 break;
-
         }
-
     }
 
     private void handleArrivals() {
