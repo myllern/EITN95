@@ -9,7 +9,7 @@ class State extends GlobalSimulation {
     public int nbrArrivalQ1 = 0;
     public int nbrRejectedQ1 = 0;
 
-    public double X = 0.01; // mean time between arrivals
+    public double X = 1/1.5; // mean time between arrivals
     public double serviceTimeQ1 = 1;
     public double serviceTimeQ2 = 1;
     public double measureMean = 5;

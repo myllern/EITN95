@@ -1,6 +1,5 @@
 package assign1.task4_v2;
 
-import java.nio.channels.NonWritableChannelException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -24,15 +23,12 @@ public class QS extends Proc {
         switch (x.signalType) {
             case NORMAL_ARRIVAL:
                 handleNormalArrival();
-                // handleSpecialArrival();
-                // System.out.println(inSystem);
                 break;
             case SERVED:
                 handleServed();
                 break;
             case SPECIAL_ARRIVAL:
                 handleSpecialArrival();
-                // System.out.println(inSystem);
                 break;
             case LAST_ARRIVAL_SENT:
                 handleLastArrival();

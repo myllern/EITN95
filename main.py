@@ -25,6 +25,7 @@ with open("./task_4_1_Arrivals.txt") as f:
         
     fig,ax1= plt.subplots()
     ax2 = ax1.twinx()
+    ax2.set_ylim(bottom=0.)
     ax1.plot(x, aY1, 'o', color='red', label = "Special Person")
     ax1.plot(x, bY1, 'o', color='blue', label = "Normal Person")
     ax2.plot(x, aY2, 'x', color='green', label = "Number of max queue-time exceeded")
@@ -35,7 +36,7 @@ with open("./task_4_1_Arrivals.txt") as f:
     ax1.legend(loc=(0.7,1.01))
     ax2.legend(loc= (0.0,1.01)) 
     
-    plt.savefig('task4_20.png')
+    plt.savefig('task4_20_two_queues.png')
     
     
  
@@ -57,6 +58,7 @@ with open("./task_4_2_Arrivals.txt") as f:
         
     fig,ax1= plt.subplots()
     ax2 = ax1.twinx()
+    ax2.set_ylim(bottom=0.)
     ax1.plot(x, aY1, 'o', color='red', label = "Special Person")
     ax1.plot(x, bY1, 'o', color='blue', label = "Normal Person")
     ax2.plot(x, aY2, 'x', color='green', label = "Number of max queue-time exceeded")
@@ -67,7 +69,7 @@ with open("./task_4_2_Arrivals.txt") as f:
     ax1.legend(loc=(0.7,1.01))
     ax2.legend(loc= (0.0,1.01)) 
     
-    plt.savefig('task4_50.png')
+    plt.savefig('task4_50_two_queues.png')
     
     
  
@@ -89,6 +91,7 @@ with open("./task_4_3_Arrivals.txt") as f:
         
     fig,ax1= plt.subplots()
     ax2 = ax1.twinx()
+    ax2.set_ylim(bottom=0.)
     ax1.plot(x, aY1, 'o', color='red', label = "Special Person")
     ax1.plot(x, bY1, 'o', color='blue', label = "Normal Person")
     ax2.plot(x, aY2, 'x', color='green', label = "Number of max queue-time exceeded")
@@ -99,7 +102,7 @@ with open("./task_4_3_Arrivals.txt") as f:
     ax1.legend(loc=(0.7,1.01))
     ax2.legend(loc= (0.0,1.01)) 
     
-    plt.savefig('task4_100.png')
+    plt.savefig('task4_100_two_queues.png')
     
     
  
@@ -131,5 +134,5 @@ with open("./task_4_4_Arrivals.txt") as f:
     ax1.legend(loc=(0.7,1.01))
     ax2.legend(loc= (0.0,1.01)) 
     
-    plt.savefig('task4_1000.png')
+    plt.savefig('task4_1000_two_queues.png')
         

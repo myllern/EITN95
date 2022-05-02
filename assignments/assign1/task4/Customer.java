@@ -44,10 +44,13 @@ public class Customer {
 
     @Override
     public boolean equals(Object o) {
-        final Customer other = (Customer) o;
-        return other.type == type;
-
-    }
+        if (o instanceof Customer) {
+          //id comparison
+          Customer c = (Customer)o;
+          return c.type.equals(type);
+        }
+        return false;
+      }
 
     @Override
     public String toString() {

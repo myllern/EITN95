@@ -24,29 +24,66 @@ public class Gen extends Proc {
     public void TreatSignal(Signal x) {
 
         switch (x.signalType) {
-            case GEN_ARRIVAL:
-                handleArrivals();
+            case GEN_ARRIVAL_ONE_CASHIER:
+                handleArrivalsOneCashier();
+                // genTest();
+                break;
+            case GEN_ARRIVAL_TWO_CASHIER:
+                handleArrivalsTwoCashiers();
                 // genTest();
                 break;
         }
+
     }
 
-    private void handleArrivals() {
+    private void handleArrivalsTwoCashiers() {
         arrivalIdx++;
 
         double nextTime = expDistPdf(lambda);
 
-        generateArrival(partSpecial);
+        generateArrivalTwoCashiers(partSpecial);
+
+        if (arrivalIdx == wantedNbrOfArrivals) {
+            SignalList.SendSignal(LAST_ARRIVAL_SENT, qs1, time);
+            SignalList.SendSignal(LAST_ARRIVAL_SENT, qs2, time);
+            return;
+        }
+        SignalList.SendSignal(GEN_ARRIVAL_TWO_CASHIER, this, time + nextTime);
+    }
+
+    private void generateArrivalTwoCashiers(double partSpecial) {
+
+        if (rand.nextDouble() > partSpecial) {
+            if (qs1.inSystem.size() > qs2.inSystem.size()) {
+                SignalList.SendSignal(NORMAL_ARRIVAL, qs2, time);
+            } else {
+                SignalList.SendSignal(NORMAL_ARRIVAL, qs1, time);
+            }
+        } else {
+            if (qs1.inSystem.size() > qs2.inSystem.size()) {
+                SignalList.SendSignal(SPECIAL_ARRIVAL, qs2, time);
+            } else {
+                SignalList.SendSignal(SPECIAL_ARRIVAL, qs1, time);
+            }
+        }
+
+    }
+
+    private void handleArrivalsOneCashier() {
+        arrivalIdx++;
+
+        double nextTime = expDistPdf(lambda);
+
+        generateArrivalOneCashier(partSpecial);
 
         if (arrivalIdx == wantedNbrOfArrivals) {
             SignalList.SendSignal(LAST_ARRIVAL_SENT, qs1, time);
             return;
         }
-
-        SignalList.SendSignal(GEN_ARRIVAL, this, time + nextTime);
+        SignalList.SendSignal(GEN_ARRIVAL_ONE_CASHIER, this, time + nextTime);
     }
 
-    private void generateArrival(double partSpecial) {
+    private void generateArrivalOneCashier(double partSpecial) {
 
         if (rand.nextDouble() > partSpecial) {
             SignalList.SendSignal(NORMAL_ARRIVAL, qs1, time);

@@ -10,9 +10,10 @@ public class MainSimulation extends Global {
     ArrayList<QS> queues = genQueues(5);
 
     Dispatcher dispatcher = new Dispatcher(queues);
+    // dispatcher.algorithm = SMALLEST_NBR_JOBS;
     dispatcher.algorithm = SMALLEST_NBR_JOBS;
     // 0.11, 0.15 and 2.0
-    dispatcher.mean = 2.0;
+    dispatcher.mean = 0.11;
 
     Sampler sampler = new Sampler(queues);
 

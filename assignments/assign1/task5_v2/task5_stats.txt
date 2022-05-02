@@ -1,0 +1,57 @@
+-----------------Algorithm --- Random----
+
+Arrival mean, unit seconds
+        2.0
+Mean nbr of jobs in the system:
+        0.2523
+
+Arrival mean, unit seconds
+        0.11
+Mean nbr of jobs in the system:
+        46.8869
+
+Arrival mean, unit seconds
+        0.15
+Mean nbr of jobs in the system:
+        9.3968        
+
+
+
+-------------Algorithm --- Round Robin
+Arrival mean, unit seconds
+        2.0
+Mean nbr of jobs in the system:
+        0.25
+
+Arrival mean, unit seconds
+        0.11
+Mean nbr of jobs in the system:
+        27.9687
+
+Arrival mean, unit seconds
+        0.15
+Mean nbr of jobs in the system:
+        6.0527
+
+-------------Algorithm --- Smallest Jobs
+Arrival mean, unit seconds
+        2.0
+Mean nbr of jobs in the system:
+        0.2532
+
+Arrival mean, unit seconds
+        0.15
+Mean nbr of jobs in the system:
+        3.9502
+
+Arrival mean, unit seconds
+        0.11
+Mean nbr of jobs in the system:
+        10.5247
+
+
+
+
+
+
+

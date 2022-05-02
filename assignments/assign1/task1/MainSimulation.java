@@ -5,7 +5,7 @@ import java.io.*;
 public class MainSimulation extends GlobalSimulation {
 
     public static void main(String[] args) throws IOException {
-        // part2();
+        part2();
         part1();
     }
 
