@@ -5,30 +5,47 @@ import java.io.*;
 
 public class MainSimulation extends GlobalSimulation {
 	static Random rand = new Random();
+	static int nbrOrSimulatedDays = 10000;
+	static ArrayList<Double> workingDaysTimeArray = new ArrayList<>();
+	static ArrayList<Double> workingDaysPrescriptionTimesArray = new ArrayList<>();
 
 	public static void main(String[] args) throws IOException {
 
-		// part1();
-		part2();
+		part1();
+		// part2();
 
 	}
 
 	public static void part2() {
 
-		System.out.println(runWorkday());
+		// System.out.println(runWorkday());
 
 	}
 
 	public static void part1() {
-		ArrayList<Double> woorkingDays = new ArrayList<>();
-		woorkingDays = runMultipleWoorkdays(10000);
-		double averageSeconds = woorkingDays.stream().mapToDouble(val -> val).average().orElse(0.0);
-		int[] arr = toSecMinHour(averageSeconds);
+		runMultipleWoorkdays(nbrOrSimulatedDays);
+		double averageSecondsWorking = workingDaysTimeArray.stream().mapToDouble(val -> val).average().orElse(0.0);
+		double averageSecondsPrescription = workingDaysPrescriptionTimesArray.stream().mapToDouble(val -> val).average().orElse(0.0);
 
-		double[] CI = CI_CALC(woorkingDays, 1.95);
+		int[] timeArrWokingHours = toSecMinHour(averageSecondsWorking);
+		int[] timeArrrescriptions = toSecMinHour(averageSecondsPrescription);
 
-		System.out.println("With 95% confidence the day will end:  " + (9 + arr[2]) + ":" + arr[1] + ":" + arr[0]
-				+ "  +- " + (CI[1] - CI[0]) + " (s)");
+		double[] CI_workingDay = CI_CALC(workingDaysTimeArray, 1.95);
+		double[] CI_prescriptionTime = CI_CALC(workingDaysPrescriptionTimesArray, 1.95);
+
+		System.out.println();
+		System.out.println("When running: " + nbrOrSimulatedDays+ " number of simulated days");
+		System.out.println();
+		System.out.println("With 95% confidence that the day will end:  " + (9 + timeArrWokingHours[2]) + ":"
+				+ timeArrWokingHours[1] + ":" + timeArrWokingHours[0]
+				+ "  +- " + (CI_workingDay[1] - CI_workingDay[0]) / 2 + " (s)");
+		System.out.println();
+		System.out.println("With 95% confidence the average prescription time is: " + timeArrrescriptions[2] + ":"
+		+ timeArrrescriptions[1] + ":" + timeArrrescriptions[0]
+		+ " (h/m/s)  +- " + (CI_prescriptionTime[1] - CI_prescriptionTime[0]) / 2 + " (s)");
+		System.out.println();
+
+
 
 	}
 
@@ -41,28 +58,24 @@ public class MainSimulation extends GlobalSimulation {
 		return arr;
 	}
 
-	private static ArrayList<Double> runMultipleWoorkdays(int nbrOfDays) {
-		ArrayList<Double> arr = new ArrayList<>();
+	private static void runMultipleWoorkdays(int nbrOfDays) {
 		for (int i = 0; i < nbrOfDays; i++) {
-			arr.add(runWorkday());
+			runWorkday();
 		}
-		return arr;
 	}
 
-	public static double runWorkday() {
+	public static void runWorkday() {
 		reset();
 		Event actEvent;
 		State actState = new State(); // The state that shoud be used
 		insertEvent(ARRIVAL, 0);
-
-		// insertEvent(MEASURE, 5);
-
 		while (!actState.isDone) {
 			actEvent = eventList.fetchEvent();
 			time = actEvent.eventTime;
 			actState.treatEvent(actEvent);
 		}
-		return actState.doneTime;
+		workingDaysTimeArray.add(actState.doneTime);
+		workingDaysPrescriptionTimesArray.add(actState.totalPrescriptionHandelingTime / actState.totalArrivals);
 	}
 
 	private static double[] CI_CALC(ArrayList<Double> in_numbers,

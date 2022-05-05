@@ -3,17 +3,16 @@ package assign2.task2;
 import java.util.*;
 
 class State extends GlobalSimulation {
-
-	public int numberInQueue = 0;
+	public int totalArrivals = 0, numberInQueue = 0;
 	public boolean isDone = false;
 	public boolean isOpen = true;
 	public double secondsPerDay = hoursToSecondss(8);
 	public int woorkingOvertime = 0;
-	public double doneTime;
-	
-	
+	public double doneTime, totalPrescriptionHandelingTime = 0;
 
 	public double timeInbetweenArrivals = hoursToSecondss(1.0 / 4.0);
+	ArrayList<Double> prescriptions = new ArrayList<>();
+
 
 	Random rand = new Random(); // This is just a random number generator
 
@@ -29,33 +28,49 @@ class State extends GlobalSimulation {
 	}
 
 	private void arrival() {
-		numberInQueue++;
-		if (numberInQueue == 1) {
-		insertEvent(READY, time + minToSeconds(uniformDist(10, 20)));
+		totalArrivals++;
+
+		arrivalOfPrescription();
+
+		if (prescriptions.size() == 1) {
+			insertEvent(READY, time + minToSeconds(uniformDist(10, 20)));
 		}
-		double nextArrivalTime =  time + expDistPdf(timeInbetweenArrivals);
-		if(nextArrivalTime < secondsPerDay){
-			insertEvent(ARRIVAL, nextArrivalTime);
-		} else{
-			isOpen = false;
-		}
+		scheduleNextArrival();
 	}
 
 	private void ready() {
-		numberInQueue--;
-		if(numberInQueue > 0){
-			if(!isOpen){
+		prescriptionDone();
+
+		if (prescriptions.size() > 0) {
+			if (!isOpen) {
 				woorkingOvertime++;
 			}
 			insertEvent(READY, time + minToSeconds(uniformDist(10, 20)));
 		}
-		if(isOpen == false && numberInQueue == 0){
+		if (isOpen == false && prescriptions.size() == 0) {
 			doneTime = time;
 			isDone = true;
 		}
 
 	}
 
+	private void prescriptionDone() {
+		double timeStamp = prescriptions.remove(0);
+		totalPrescriptionHandelingTime += time - timeStamp;
+	}
+
+	private void scheduleNextArrival() {
+		double nextArrivalTime = time + expDistPdf(timeInbetweenArrivals);
+		if (nextArrivalTime < secondsPerDay) {
+			insertEvent(ARRIVAL, nextArrivalTime);
+		} else {
+			isOpen = false;
+		}
+	}
+
+	private void arrivalOfPrescription() {
+		prescriptions.add(time);
+	}
 
 	private double expDistPdf(double mean) {
 		return (-1.0) * Math.log(1 - rand.nextDouble()) * mean;
