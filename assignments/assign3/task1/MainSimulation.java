@@ -3,29 +3,44 @@ package assign3.task1;
 import java.util.*;
 import java.io.*;
 
-//Denna klass �rver Global s� att man kan anv�nda time och signalnamnen utan punktnotation
-//It inherits Proc so that we can use time and the signal names without dot notation
-
 public class MainSimulation extends Global {
-	static double velocity = 2;
-	static int numberOfPersons = 20;
+	static double T = 2, velocity = 2;
+	static int numberOfPersons = 10;
+	static Random rand = new Random();
+
+	static ArrayList<Person> walkingDead = new ArrayList<>();
 
 	public static void main(String[] args) throws IOException {
 
+		Config config = new Config()
+				.setNumberOfPersons(numberOfPersons)
+				.setVelocity(velocity)
+				.setT(T);
+
+		generateWalkingDead(config);
 		Signal actSignal;
 		new SignalList();
 
-		Controller Controller = new Controller(numberOfPersons, velocity);
+		Controller controller = new Controller(walkingDead, velocity, T);
 
-		// SignalList.SendSignal(READY, Generator, time);
-		// SignalList.SendSignal(MEASURE, Q1, time);
-		System.out.println("jo");
+		SignalList.SendSignal(MOVEMENT, controller, 0);
 
-		// while (time < 100000) {
-		// 	actSignal = SignalList.FetchSignal();
-		// 	time = actSignal.arrivalTime;
-		// 	actSignal.destination.TreatSignal(actSignal);
-		// }
-
+		while (time < 15) {
+			actSignal = SignalList.FetchSignal();
+			time = actSignal.arrivalTime;
+			actSignal.destination.TreatSignal(actSignal);
+		}
 	}
+
+	public static void generateWalkingDead(Config config) {
+		for (int i = 0; i < config.numberOfPersons; i++) {
+			Person newPerson = new Person()
+					.setName(i)
+					.setVelocity(config.velocity)
+					.setT(config.T);
+			walkingDead.add(newPerson);
+
+		}
+	}
+
 }
