@@ -33,17 +33,17 @@ public class MainSimulation extends GlobalSimulation {
 		return actState.map;
 	}
 
-	public static void runNr1() throws InterruptedException, IOException {
-		writeFile(runSim(new Config(1000, 100, 8, 1000, 1)), "plot_assign2_task1_1");
-	}
+	// public static void runNr1() throws InterruptedException, IOException {
+	// 	writeFile(runSim(new Config(1000, 100, 8, 1000, 1)), "plot_assign2_task1_1");
+	// }
 
-	public static void runNr2() throws InterruptedException, IOException {
-		writeFile(runSim(new Config(1000, 10, 80, 1000, 1)), "plot_assign2_task1_2");
-	}
+	// public static void runNr2() throws InterruptedException, IOException {
+	// 	writeFile(runSim(new Config(1000, 10, 80, 1000, 1)), "plot_assign2_task1_2");
+	// }
 
-	public static void runNr3() throws InterruptedException, IOException {
-		writeFile(runSim(new Config(1000, 200, 4, 1000, 1)), "plot_assign2_task1_3");
-	}
+	// public static void runNr3() throws InterruptedException, IOException {
+	// 	writeFile(runSim(new Config(1000, 200, 4, 1000, 1)), "plot_assign2_task1_3");
+	// }
 
 	public static void runNr4() throws InterruptedException, IOException {
 		Map<Double, Integer> map = runSim(new Config(100, 10, 4, 1000, 4));

@@ -17,7 +17,9 @@ public class Person extends Proc {
     ArrayList<Point> walkingPath = new ArrayList<>();
 
     Person() {
-        this.position = genRandomPoint();
+        this.position = genRandomPoint(); 
+        setWalkingDirection(uniformDistInt(0, 7));
+        this.nextTile = getNextTile();
     }
 
     @Override
@@ -146,6 +148,10 @@ public class Person extends Proc {
 
     private void setNewDirection() {
         walkingDirection = uniformDistInt(0, 7);
+    }
+
+    private void setWalkingDirection(int direction){
+        walkingDirection = direction; 
     }
 
     private void setWalkingNewDistance() {

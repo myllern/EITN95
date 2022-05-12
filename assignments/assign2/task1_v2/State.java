@@ -42,7 +42,7 @@ class State extends GlobalSimulation {
 			numberInSystem++;
 			insertEvent(READY, time + x);
 		}
-		insertEvent(ARRIVAL, time + poisson(lambda));
+		insertEvent(ARRIVAL, time + expDistPdf(lambda));
 	}
 
 	private void handleReady() {
@@ -58,6 +58,10 @@ class State extends GlobalSimulation {
 			insertEvent(MEASURE, time + T);
 		}
 	}
+
+	private double expDistPdf(double lambda) {
+        return (-1.0) * Math.log(1 - rand.nextDouble()) / (1.0/lambda);
+    }
 
 	private int poisson(double mean) {
 		int r = 0;

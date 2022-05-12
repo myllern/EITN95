@@ -11,8 +11,8 @@ public class MainSimulation extends GlobalSimulation {
 
 	public static void main(String[] args) throws IOException {
 
-		part1();
-		// part2();
+		// part1();
+		part2();
 
 	}
 
