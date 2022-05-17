@@ -1,10 +1,12 @@
 package assign3.task2;
 
+import java.util.HashMap;
 import java.util.Random;
 
 public class Person extends Proc {
     double timeOutTalking = 0;
-    
+    HashMap<Integer, Double> friendList = new HashMap<>();
+    boolean knowsEveryone = false;
     int name;
     boolean isFree = true;
     double timeSpentTalking;
@@ -136,13 +138,7 @@ public class Person extends Proc {
 
     @Override
     public String toString() {
-        return "Name: " + name + " | Position: " + position + " | Time Spent Talking: " + timeSpentTalking
-                +
-                // "| Next Direction: " + walkingDirection
-                // + "| Walking Dist: " + walkingDistance + " | Next Tile: "
-                // + nextTile +
-                // "| TilesLeftToWalk: " + tilesLeftToWalk 
-                " | time: " + time;
+        return "Name: " + name + " | Position: " + position;
     }
 
 }

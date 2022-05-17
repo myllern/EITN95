@@ -6,8 +6,10 @@ import java.util.Map;
 
 public class Floor {
     Map<Point, ArrayList<Person>> floorMap = new HashMap<>();
+    double T;
 
-    Floor() {
+    Floor(double T) {
+        this.T = T;
         genNewFloor();
     }
 
@@ -19,7 +21,6 @@ public class Floor {
             }
         }
     }
-
 
     public void addWalkers(ArrayList<Person> walkers) {
         genNewFloor();
@@ -38,10 +39,23 @@ public class Floor {
             ArrayList<Person> tileList = floorMap.get(point);
             if (tileList.size() > 1) {
                 conversationWalkers.add(tileList.get(0));
+                addingToFriendList(tileList.get(0), tileList.get(1));
                 conversationWalkers.add(tileList.get(1));
+                addingToFriendList(tileList.get(1), tileList.get(0));
             }
         }
         return conversationWalkers;
+    }
+
+    public void addingToFriendList(Person walker, Person walkerFriend) {
+        if (walker.friendList.get(walkerFriend.name) != null) {
+            double timeSpent = walker.friendList.get(walkerFriend.name);
+            walker.friendList.put(walkerFriend.name, timeSpent + T);
+        }else{
+            walker.friendList.put(walkerFriend.name, T);
+        }
+
+
     }
 
 }
