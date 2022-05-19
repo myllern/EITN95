@@ -6,17 +6,17 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class MainSimulation extends Global {
-	static double T = 1, velocity;
+	static double T = 60, velocity;
 	static int numberOfPersons = 20;
 	static Random rand = new Random();
 	static int nbrOfSims = 500;
 	static Config config;
 	static ArrayList<Person> walkingDead = new ArrayList<>();
 	static TreeMap<Integer, Double> accMultiConversationMap = new TreeMap<>();
-	static int avgTimeNeeded;
+	static int avgTimeNeeded = 5000;
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		for (int i = 0; i < 3000; i++) {
+		for (int i = 0; i < 20000; i++) {
 			accMultiConversationMap.put(i, 0.0);
 		}
 
@@ -28,38 +28,45 @@ public class MainSimulation extends Global {
 	public static void V_2() throws InterruptedException, IOException {
 		config = new Config().setNumberOfPersons(numberOfPersons).setT(T).setVelocity(2);
 		double[] CI = CI_CALC(runMultipleSims(), 1.95);
+		int avgTimeUntillEveryoneTalked = (int) ((CI[0]+ CI[1]) / 2);
 		System.out.println("____________");
 		System.out.println();
 		System.out.println("Velocity: 2 | CI = 95%");
-		System.out.println("CI: " + CI[0] + " --- " + CI[1]);
+		System.out.println("avg time untill everone done Talking: " + ((CI[0]+ CI[1]) / 2.0) + " (s) ");
+		System.out.println("CI: " + secToMin(CI[0]) + " --- " + secToMin(CI[1]));
+		System.out.println();
 		System.out.println("____________");
 		System.out.println();
-		writeFile(getFinalPlotArray(), 1);
+		writeFile(getFinalPlotArray(), 1, avgTimeUntillEveryoneTalked);
 	}
 
 	public static void V_4() throws InterruptedException, IOException {
 		config = new Config().setNumberOfPersons(numberOfPersons).setT(T).setVelocity(4);
 		double[] CI = CI_CALC(runMultipleSims(), 1.95);
+		int avgTimeUntillEveryoneTalked = (int) ((CI[0]+ CI[1]) / 2);
 		System.out.println("____________");
 		System.out.println();
 		System.out.println("Velocity: 4 | CI = 95%");
-		System.out.println("CI: " + CI[0] + " --- " + CI[1]);
+		System.out.println("avg time untill everone done Talking: " + ((CI[0]+ CI[1]) / 2.0) + " (s) ");
+		System.out.println("CI: " + secToMin(CI[0]) + " --- " + secToMin(CI[1]));
 		System.out.println("____________");
 		System.out.println();
-		writeFile(getFinalPlotArray(), 2);
+		writeFile(getFinalPlotArray(), 2, avgTimeUntillEveryoneTalked);
 
 	}
 
 	public static void V_U_7() throws InterruptedException, IOException {
 		config = new Config().setNumberOfPersons(numberOfPersons).setT(T).setVelocity(-1);
 		double[] CI = CI_CALC(runMultipleSims(), 1.95);
+		int avgTimeUntillEveryoneTalked = (int) ((CI[0]+ CI[1]) / 2);
 		System.out.println("____________");
 		System.out.println();
 		System.out.println("Velocity: U(1,7) | CI = 95%");
-		System.out.println("CI: " + CI[0] + " --- " + CI[1]);
+		System.out.println("avg time untill everone done Talking: " + ((CI[0]+ CI[1]) / 2.0) + " (s) ");
+		System.out.println("CI: " + secToMin(CI[0]) + " --- " + secToMin(CI[1]));
 		System.out.println("____________");
 		System.out.println();
-		writeFile(getFinalPlotArray(), 3);
+		writeFile(getFinalPlotArray(), 3, avgTimeUntillEveryoneTalked);
 	}
 
 	public static void reset() {
@@ -90,7 +97,7 @@ public class MainSimulation extends Global {
 			arrOfTimesTakenToKnowEveryone.add(runSim());
 			reset();
 		}
-		avgTimeNeeded = (int) Math.round(getAverage(arrOfTimesTakenToKnowEveryone));
+		// avgTimeNeeded = (int) Math.round(getAverage(arrOfTimesTakenToKnowEveryone) + 2000);
 		return arrOfTimesTakenToKnowEveryone;
 	}
 
@@ -162,7 +169,7 @@ public class MainSimulation extends Global {
 
 	public static void updateMultiConversationArray(ArrayList<Double> arrOfConversationsTimes) {
 
-		for (int i = 0; i < 3000; i++) {
+		for (int i = 0; i < 20000; i++) {
 
 			if (i < arrOfConversationsTimes.size() - 1) {
 				Double accConversationTime = accMultiConversationMap.get(i) + arrOfConversationsTimes.get(i);
@@ -175,11 +182,12 @@ public class MainSimulation extends Global {
 		}
 	}
 
-	public static ArrayList<Double> writeFile(ArrayList<Double> plotArr, int nbr_experiment)
+	public static ArrayList<Double> writeFile(ArrayList<Double> plotArr, int nbr_experiment, int avgTimeUntillEveryoneTalked )
 			throws InterruptedException, IOException {
 
 		FileWriter fw = new FileWriter("assignment3_task2_" + nbr_experiment+ ".txt");
-
+				
+				fw.write("T " + String.valueOf(avgTimeUntillEveryoneTalked) + "\r\n");
 				for (int i = 0; i < plotArr.size() -1; i++) {
 					fw.write(i +" "+ plotArr.get(i)  + "\r\n");
 
@@ -187,5 +195,10 @@ public class MainSimulation extends Global {
 
 		fw.close();
 		return null;
+	}
+
+	public static double secToMin(double sec) {
+		return sec / 60.0;
+		
 	}
 }
