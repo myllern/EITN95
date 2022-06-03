@@ -5,6 +5,8 @@ import java.util.Random;
 
 public class Controller extends Proc {
     ArrayList<Double> avgConversationArray = new ArrayList<>();
+    ArrayList<Double> knowArray = new ArrayList<>();
+
     int numberOfPersons;
     double velocity, T;
     ArrayList<Person> walkingDead;

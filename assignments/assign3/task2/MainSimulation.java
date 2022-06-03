@@ -9,7 +9,7 @@ public class MainSimulation extends Global {
 	static double T = 60, velocity;
 	static int numberOfPersons = 20;
 	static Random rand = new Random();
-	static int nbrOfSims = 500;
+	static int nbrOfSims = 1;
 	static Config config;
 	static ArrayList<Person> walkingDead = new ArrayList<>();
 	static TreeMap<Integer, Double> accMultiConversationMap = new TreeMap<>();
@@ -37,6 +37,9 @@ public class MainSimulation extends Global {
 		System.out.println();
 		System.out.println("____________");
 		System.out.println();
+
+
+		
 		writeFile(getFinalPlotArray(), 1, avgTimeUntillEveryoneTalked);
 	}
 
@@ -87,6 +90,16 @@ public class MainSimulation extends Global {
 			time = actSignal.arrivalTime;
 			actSignal.destination.TreatSignal(actSignal);
 		}
+
+
+		// Last ADDDED!!!!
+		for (Person person : walkingDead) {
+			controller.knowArray.add(person.timeSpentTalking);
+		}
+		Collections.sort(controller.knowArray);
+		
+		
+
 		updateMultiConversationArray(controller.avgConversationArray);
 		return time;
 	}
